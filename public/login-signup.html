@@ -30,6 +30,16 @@
     </form>
 
     <div class="container text-center">
+        <a href="contact_us.html">
+            <button class="btn btn-primary">
+                <span class="button--inner">Contact Us</span>
+            </button>
+        </a>
+    </div>
+        
+            <button class="btn btn-primary" data-toggle="modal" data-target="#newUserModal">
+                <span class="button--inner">Sign Up</span>
+            </button>
 
         <button class="btn btn-primary" data-toggle="modal" data-target="#newUserModal">
             <span class="button--inner">Sign Up</span>
@@ -39,21 +49,22 @@
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New User Signup</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <input type="email" name="email" id="newEmail" placeholder="Email address" required>
-                            <input type="password" name="password" id="newPassword" placeholder="Password" required>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Submit</button>
-                    </div>
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New User Signup</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                        <input type="name" name="userName" id="newUser" placeholder="Your name" required>
+                        <input type="email" name="email" id="newEmail" placeholder="Email address" required>
+                        <input type="password" name="password" id="newPassword" placeholder="Password" required>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Submit</button>
+                  </div>
                 </div>
             </div>
         </div>

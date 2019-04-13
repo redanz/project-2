@@ -5,6 +5,7 @@ USE food_db;
 
 CREATE TABLE user_auth (
 	id INT NOT NULL AUTO_INCREMENT,
+	userName VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL UNIQUE,
 	password_hash VARCHAR(255) NOT NULL,
 	PRIMARY KEY(id)
