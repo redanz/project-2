@@ -17,4 +17,9 @@ function addToHome() {
         }
     }
     console.log(selectedIcons);
+    $.ajax({
+        type: "GET",
+        url: '/icons-to-home',
+        data: { si: selectedIcons }
+    })
 }
