@@ -5,6 +5,7 @@ USE food_db;
 
 CREATE TABLE user_auth (
 	id INT NOT NULL AUTO_INCREMENT,
+	userName VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL UNIQUE,
 	password_hash VARCHAR(255) NOT NULL,
 	PRIMARY KEY(id)
@@ -20,10 +21,10 @@ CREATE TABLE foods (
 
 
 CREATE TABLE user_data (
-	id INT NOT NULL,
+	user_id INT NOT NULL,
 	food_id VARCHAR(255) NOT NULL,
 	purchase_time TIMESTAMP NOT NULL,
-	FOREIGN KEY (id) REFERENCES user_auth(id),	
+	FOREIGN KEY (user_id) REFERENCES user_auth(id),	
 	FOREIGN KEY (food_id) REFERENCES foods(id)
 );
 
