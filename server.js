@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var mysql = require('mysql');
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
@@ -9,17 +10,26 @@ app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+var con = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "password",
+    database: "food_db"
+});
+
+con.connect();
+
 app.get('/', (req, res) => {
     res.send('index')
 })
 
 app.get('/inventory', (req, res) => {
-    var imageData = [1, 2, 3, 4, 5, 6];
-    var imageName = ['Apple', 'Banana', 'Melon', 'Mango', 'Peach', 'Tomato'];
-
-    res.render('pages/inventory', {
-        imageData, imageName
-    });
+    con.query('SELECT id, food_name FROM foods ORDER BY id ASC', (err, results, fields) => {
+        res.render('pages/inventory', {
+            foodInfo: results
+        });
+    })
 })
 
 app.post('/icons-to-home', (req, res) => {
