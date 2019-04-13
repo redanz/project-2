@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 
 app.get('/inventory', (req, res) => {
     var imageData = [1, 2, 3, 4, 5, 6];
-    var imageName = ['Apple', 'Banana', 'Watermelon', 'Mango', 'Peach', 'Tomato'];
+    var imageName = ['Apple', 'Banana', 'Melon', 'Mango', 'Peach', 'Tomato'];
 
     res.render('pages/inventory', {
         imageData, imageName

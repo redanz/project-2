@@ -11,14 +11,12 @@ CREATE TABLE user_auth (
 	PRIMARY KEY(id)
 );
 
-
 CREATE TABLE foods (
 	id INT NOT NULL AUTO_INCREMENT,
 	food_name VARCHAR(255) NOT NULL UNIQUE,
 	expiry_time INT,
 	PRIMARY KEY(id)
 );
-
 
 CREATE TABLE user_data (
 	user_id INT NOT NULL,
