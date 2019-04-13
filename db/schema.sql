@@ -22,7 +22,7 @@ CREATE TABLE foods (
 
 CREATE TABLE user_data (
 	user_id INT NOT NULL,
-	food_id VARCHAR(255) NOT NULL,
+	food_id INT NOT NULL,
 	purchase_time TIMESTAMP NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES user_auth(id),	
 	FOREIGN KEY (food_id) REFERENCES foods(id)
