@@ -22,8 +22,8 @@ app.get('/inventory', (req, res) => {
     });
 })
 
-app.get('/icons-to-home', (req, res) => {
-    console.log(req.query.si)
+app.post('/icons-to-home', (req, res) => {
+    console.log(req.body.si)
 });
 
 app.listen(3000, () => {
