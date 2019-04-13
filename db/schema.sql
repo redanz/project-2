@@ -14,17 +14,17 @@ CREATE TABLE user_auth (
 CREATE TABLE foods (
 	id INT NOT NULL AUTO_INCREMENT,
 	food_name VARCHAR(255) NOT NULL UNIQUE,
-	expiry_counter INT,
-	expiry_fridge INT,
+	expiry_time INT,
 	PRIMARY KEY(id)
 );
 
 
 CREATE TABLE user_data (
 	id INT NOT NULL,
-	FOREIGN KEY (id) REFERENCES user_auth(id),
-	food_name VARCHAR(255) NOT NULL,
-	purchase_time TIMESTAMP NOT NULL
+	food_id VARCHAR(255) NOT NULL,
+	purchase_time TIMESTAMP NOT NULL,
+	FOREIGN KEY (id) REFERENCES user_auth(id),	
+	FOREIGN KEY (food_id) REFERENCES foods(id)
 );
 
 
