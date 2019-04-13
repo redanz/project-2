@@ -26,7 +26,7 @@ INSERT INTO foods (food_name, expiry_time) VALUES
 	('Salmon', 1);
 
 
-INSERT INTO user_data (id, food_id, purchase_time) VALUES
+INSERT INTO user_data (user_id, food_id, purchase_time) VALUES
 	(1, 3, '2019-04-10 12:00:00'),
 	(1, 9, '2019-04-10 12:00:15'),
 	(2, 10, '2019-04-10 12:01:03'),
