@@ -37,18 +37,24 @@
         margin: 4px;
         border-radius: 2px;
     }
+
+    #buttonDisplay {
+        margin: 10px;
+    }
 </style>
 
 <body>
     <div class="container text-center">
         <h1>Inventory</h1>
     </div>
-    <br>
+    <div id="buttonDisplay" class="text-center">
+        <button class="btn btn-success" onclick="addToHome()">Add To Home Page</button>
+    </div>
 
 
     <div class="container text-center" id="displayAllFood">
         <%for(let i in imageData){ %>
-        <div class="foodIcon text-center" data-addToHome="false">
+        <div class="foodIcon text-center" data-addToHome="false" data-foodId="<%=i%>">
             <img class="foodImage" src="/assets/img/<%= imageData[i] %>.png" alt="food image">
             <p>
                 <%= imageName[i] %>
