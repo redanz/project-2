@@ -6,7 +6,7 @@ INSERT INTO user_auth (userName, email, password_hash) VALUES
 	('Nader', 'nader@test.com', '!@#$!%%');
 
 
-INSERT INTO foods (food_name, expiry_counter, expiry_fridge) VALUES
+INSERT INTO foods (food_name, expiry_time) VALUES
 	('Milk', 5),
 	('Egg', 21),
 	('Apple', 14),
