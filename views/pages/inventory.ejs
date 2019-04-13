@@ -9,31 +9,52 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/cover/">
-    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
+<style>
+    #displayAllFood {
+        background-color: lightblue;
+        border-radius: 10px;
+        height: 500px;
+    }
+
+    .foodIcon {
+        width: 100px;
+        height: 100px;
+        background-color: lightgray;
+        border-radius: 5px;
+        margin: 10px;
+        float: left;
+    }
+
+    .selected {
+        background-color: lightgreen !important;
+    }
+
+    .foodImage {
+        width: 70%;
+        height: 70%;
+        margin: 4px;
+        border-radius: 2px;
+    }
+</style>
 
 <body>
     <div class="container text-center">
-        <h1>Pantry Pal!</h1>
-    </div>
-    <div class="imageDisplay">
-<<<<<<< HEAD
-        <img src="/assets/img/landing.png" alt="fridge">
-=======
-        <img src="./assets/img/landing.png" alt="fridge">
->>>>>>> 838eceabd9f830ab7ce7b933a167e4285d2bbae0
+        <h1>Inventory</h1>
     </div>
     <br>
 
 
-    <div class="container text-center">
-        <a href="login-signup.html">
-            <button class="btn btn-primary">
-                <span class="button--inner">Sign In</span>
-            </button>
-        </a>
-    </div>
+    <div class="container text-center" id="displayAllFood">
+        <%for(let i in imageData){ %>
+        <div class="foodIcon text-center" data-addToHome="false">
+            <img class="foodImage" src="/assets/img/<%= imageData[i] %>.png" alt="food image">
+            <p>
+                <%= imageName[i] %>
+            </p>
+        </div>
+        <%}%>
     </div>
 
 
@@ -50,7 +71,7 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-
+    <script src="/assets/js/inventory.js"> </script>
 </body>
 
 </html>
