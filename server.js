@@ -3,12 +3,16 @@ var app = express();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var mysql = require('mysql');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(session({ secret: 'app', cookie: { maxAge: 1*1000*60*60*24*365 }}));
+app.use(cookieParser());
 
 var con = mysql.createConnection({
     host: "localhost",
@@ -31,6 +35,15 @@ app.get('/inventory', (req, res) => {
         });
     })
 })
+
+app.get('/homedash', (req, res) => {
+    req.session.user_id = 1; 
+    con.query('SELECT food_id, food_name, expiry_time - DATEDIFF(CURDATE(), purchase_time) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
+        res.render('pages/homedash', {
+            expiringFoods: results
+        });
+    })
+});
 
 app.post('/icons-to-home', (req, res) => {
     console.log(req.body.si)
