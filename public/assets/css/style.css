@@ -50,8 +50,34 @@
     #buttonDisplay {
         margin: 10px;
     }
-
-.imageDisplay img{
+    
+/*-----------Landing Page------------*/
+/* .imageDisplay {
+    content: "";
+    z-index: -1; 
+    position: fixed;
     width: 100%;
-    max-height: 500px;
+    background-image: url('/assets/img/landing.png');
+    background-size: cover;
+    left: 0;
+    right: 0;
+} */
+
+.infoDisplay{
+    height: 300px;
+    width: 100%;
+    padding: 40px 40px;
+    background-color: #fff9;
+    font-size: 20px;
+    background-image: url('/assets/img/background.png');
+    background-position-y: -50px;
+    background-size: 100%;
+    background-position: fixed;
+} 
+
+.textDisplay{
+    max-width: 600px;
+    margin: auto;
+    color: white;
 }
+

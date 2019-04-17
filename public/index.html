@@ -9,24 +9,56 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/cover/">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
+<style>
+    body::after {
+        content: "";
+        position: fixed;
+        z-index: -1;
+        width: 100%;
+        background-image: url('/assets/img/landing.png');
+        background-size: cover;
+        opacity: 1;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
 
+    h1 {
+        color: #17a2b8;
+        font-size: 40px;
+        height: 50px;
+
+    }
+</style>
 
 <body>
+    <br><br><br>
     <div class="container text-center">
-        <h1>Pantry Pal!</h1>
+        <br>
+        <h1>🅟🅐🅝🅣🅡🅨 🅟🅐🅛</h1>
     </div>
-    <div class="imageDisplay">
-        <img src="./assets/img/landing.png" alt="fridge">
+
+    <div class="infoDisplay text-center">
+        <div class="textDisplay">
+            <p>
+                About 150,000 tons of food is tossed out in US
+                households
+                each day, equivalent to about a third of the daily calories that each American consumes.<br><br>
+
+                Keep track of your expirable foods with Pantry Pal!
+            </p>
+        </div>
     </div>
     <br>
 
 
     <div class="container text-center">
         <a href="login-signup.html">
-            <button class="btn btn-primary">
-                <span class="button--inner">Sign In</span>
+            <button class="btn btn-info">
+                <span class="button--inner">Learn More!</span>
             </button>
         </a>
     </div>
