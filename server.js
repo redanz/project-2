@@ -5,6 +5,7 @@ var methodOverride = require('method-override');
 var mysql = require('mysql');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var bcrypt = require('bcrypt'); 
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
@@ -26,6 +27,17 @@ con.connect();
 
 app.get('/', (req, res) => {
     res.send('index')
+})
+
+app.post('/newUser', (req, res) => {
+    bcrypt.genSalt(10, function(err, salt){
+        bcrypt.hash(req.body.password, salt, function(err, p_hash){
+            con.query('INSERT INTO user_auth(userName, email, password_hash) VALUES(?,?,?)', [req.body.userName, req.body.email, p_hash], (err, results, fields) => {
+            })
+            res.redirect('/login/'+req.body.email+'/'+p_hash);
+        })
+    })
+    
 })
 
 app.get('/inventory', (req, res) => {
