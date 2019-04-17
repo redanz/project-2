@@ -93,3 +93,8 @@
     margin: auto;
     color: white;
 }
+
+
+input{
+    border-radius: 5px;
+}
