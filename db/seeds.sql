@@ -1,9 +1,9 @@
 USE food_db;
 
-INSERT INTO user_auth (userName, email, password_hash) VALUES 
-	('Kristen','kristen@test.com', ')15#$@%^'),
-	('Khoa', 'khoa@test.com', '*059#$%%^@!'),
-	('Nader', 'nader@test.com', '!@#$!%%');
+-- INSERT INTO user_auth (userName, email, password_hash) VALUES 
+-- 	('Kristen','kristen@test.com', ')15#$@%^'),
+-- 	('Khoa', 'khoa@test.com', '*059#$%%^@!'),
+-- 	('Nader', 'nader@test.com', '!@#$!%%');
 
 
 INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES
