@@ -87,6 +87,31 @@ app.post('/icons-to-home', (req, res) => {
     }
 });
 
+app.post('/login', function(req, res){
+    console.log(req.body)
+    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email],function (error, results, fields) {
+        console.log(results);
+
+        if (error) throw error;
+      
+        if (results.length == 0){
+            res.send('Please try again.');
+        } else {
+            bcrypt.compare(req.body.password, results[0].password_hash, function(err, result) {
+            
+                if (result == true){
+                    req.session.user_id = results[0].id;
+                    req.session.email = results[0].email;
+                    res.send('You are logged in!');
+                } else {
+                    res.send('Please try again.');
+                    // res.redirect('/');
+                }
+        });
+      }
+    });
+});
+
 app.listen(3000, () => {
     console.log('Listening on port 3000...')
 })
