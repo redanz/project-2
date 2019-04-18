@@ -40,14 +40,13 @@ app.post('/newUser', (req, res) => {
 })
 
 app.post('/newCustomIcon', (req, res) => {
-    // con.query('INSERT INTO user_auth(userName, email, password_hash) VALUES(?,?,?)', [req.body.userName, req.body.email, p_hash], (err, results, fields) => {
-    // })
-    // res.redirect('/login/' + req.body.email + '/' + p_hash);
-    console.log(req.body.foodName + req.body.expiration);
+    con.query('INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES (?, ?, 1)', [req.body.foodName, req.body.expiration, 1], (err, results, fields) => {
+    })
+    res.redirect('/inventory');
 })
 
 app.get('/inventory', (req, res) => {
-    con.query('SELECT id, food_name FROM foods ORDER BY id ASC', (err, results, fields) => {
+    con.query('SELECT id, food_name, custom_user_id FROM foods ORDER BY id ASC', (err, results, fields) => {
         res.render('pages/inventory', {
             foodInfo: results
         });

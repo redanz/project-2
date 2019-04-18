@@ -9,8 +9,7 @@ $('.foodIcon').on('click', function () {
     }
 })
 
-$('#newCustomIcon').submit(function (e) {
-    e.preventDefault();
+$('#newCustomIcon').submit(function () {
     $.ajax({
         url: '/newCustomIcon',
         method: 'POST',
