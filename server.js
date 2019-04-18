@@ -37,12 +37,23 @@ app.get('/inventory', (req, res) => {
 })
 
 app.get('/homedash', (req, res) => {
-    req.session.user_id = 1; 
+    req.session.user_id = 1;
+    purchase_time = req.query.time;
+    console.log(purchase_time);
+
     con.query('SELECT food_id, food_name, expiry_time - DATEDIFF(CURDATE(), purchase_time) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
         res.render('pages/homedash', {
             expiringFoods: results
         });
     })
+});
+
+app.post('/homedash', (req, res) => {
+    req.session.user_id = 1;
+    purchase_time = req.body.time;
+    console.log(req.body.time);
+
+    con.query('UPDATE user_data SET purchase_time = CURRDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, ])
 });
 
 app.post('/icons-to-home', (req, res) => {
