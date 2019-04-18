@@ -34,8 +34,9 @@ INSERT INTO user_data (user_id, food_id, purchase_time) VALUES
 	(3, 17, '2019-04-10 12:15:55'),
 	(3, 3, '2019-04-10 12:17:39');
 
---Custom food per user
+-- Custom food per user
 -- INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES ('Tangerine', 5, 1);
+
 
 
 
