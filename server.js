@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
     res.send('index')
 })
 
-var tempId = 3;
+var tempId = 1;
 
 app.post('/newUser', (req, res) => {
     bcrypt.genSalt(10, function (err, salt) {
@@ -67,10 +67,7 @@ app.get('/homedash', (req, res) => {
 
 app.post('/homedash', (req, res) => {
     req.session.user_id = 1;
-    purchase_time = req.body.time;
-    console.log(req.body.time);
-
-    con.query('UPDATE user_data SET purchase_time = CURRDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, ])
+    con.query('UPDATE user_data SET purchase_time = CURDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, req.body.food_id])
 });
 
 app.post('/icons-to-home', (req, res) => {
