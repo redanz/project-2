@@ -1,5 +1,5 @@
-$('#login').submit(function(e){
-	e.preventDefault();
+$('#login').submit(function(){
+	preventDefault();
 	$.ajax({
 		url: '/login',
 		method: 'POST',

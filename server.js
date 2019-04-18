@@ -74,8 +74,8 @@ app.get('/homedash', (req, res) => {
 })
 
 app.post('/homedash', (req, res) => {
-    // req.session.user_id = 1;
-    con.query('UPDATE user_data SET purchase_time = CURDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, req.body.food_id])
+    con.query('UPDATE user_data SET purchase_time = CURDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, req.body.food_id]);
+    res.redirect('/homedash');
 });
 
 app.post('/icons-to-home', (req, res) => {
@@ -96,9 +96,7 @@ app.post('/icons-to-home', (req, res) => {
 });
 
 app.post('/login', function(req, res){
-    console.log(req.body)
     con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email],function (error, results, fields) {
-        console.log(results);
 
         if (error) throw error;
       
