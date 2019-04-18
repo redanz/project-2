@@ -5,7 +5,7 @@ var methodOverride = require('method-override');
 var mysql = require('mysql');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var bcrypt = require('bcrypt'); 
+var bcrypt = require('bcrypt');
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
@@ -30,18 +30,23 @@ app.get('/', (req, res) => {
 })
 
 app.post('/newUser', (req, res) => {
-    bcrypt.genSalt(10, function(err, salt){
-        bcrypt.hash(req.body.password, salt, function(err, p_hash){
+    bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(req.body.password, salt, function (err, p_hash) {
             con.query('INSERT INTO user_auth(userName, email, password_hash) VALUES(?,?,?)', [req.body.userName, req.body.email, p_hash], (err, results, fields) => {
             })
-            res.redirect('/login/'+req.body.email+'/'+p_hash);
+            res.redirect('/login/' + req.body.email + '/' + p_hash);
         })
     })
-    
+})
+
+app.post('/newCustomIcon', (req, res) => {
+    con.query('INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES (?, ?, 1)', [req.body.foodName, req.body.expiration, 1], (err, results, fields) => {
+    })
+    res.redirect('/inventory');
 })
 
 app.get('/inventory', (req, res) => {
-    con.query('SELECT id, food_name FROM foods ORDER BY id ASC', (err, results, fields) => {
+    con.query('SELECT id, food_name, custom_user_id FROM foods ORDER BY id ASC', (err, results, fields) => {
         res.render('pages/inventory', {
             foodInfo: results
         });
@@ -50,7 +55,7 @@ app.get('/inventory', (req, res) => {
 
 app.get('/homedash', (req, res) => {
     req.session.user_id = 1;
-    con.query('SELECT food_id, food_name, expiry_time - DATEDIFF(CURDATE(), purchase_time) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
+    con.query('SELECT food_id, food_name, custom_user_id, expiry_time - DATEDIFF(CURDATE(), purchase_time) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
         res.render('pages/homedash', {
             expiringFoods: results
         });

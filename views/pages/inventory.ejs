@@ -28,14 +28,46 @@
     <div class="container text-center" id="displayAllFood">
         <%for(let i in foodInfo){ %>
         <div class="foodIcon text-center" data-addToHome="false" data-foodId="<%=foodInfo[i].id%>">
-            <img class="foodImage" src="/assets/img/<%= foodInfo[i].id %>.png" alt="food image">
-            <p>
-                <%= foodInfo[i].food_name %>
-            </p>
+            <div class="imageDisplay">
+                <img class="foodImage" src="/assets/img/<%= (foodInfo[i].custom_user_id === 0 ? foodInfo[i].id : 'customFood')%>.png"
+                    alt="food image">
+            </div>
+            <div class="text">
+                <p>
+                    <%= foodInfo[i].food_name %>
+                </p>
+            </div>
         </div>
         <%}%>
+        <div class="newCustomIcon text-center" data-toggle="modal" data-target="#newUserModal" data-addToHome="false"
+            data-foodId="1">
+            <img class="foodImage" src="/assets/img/custom.png" alt="food image">
+            <p>
+                Add
+            </p>
+        </div>
     </div>
+    <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add a Custom Food!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
+                </div>
+                <div class="modal-body" style="border-radius:20px">
+                    <form id="newCustomIcon">
+                        <input type="name" name="foodName" placeholder="Food Name" required>
+                        <input type="number" name="expiration" placeholder="Expiration" required>
+                        <button class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="

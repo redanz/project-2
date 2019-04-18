@@ -44,13 +44,13 @@
         float: left;
     }
 
+    .customIcon{
+        margin-right: -9px !important;
+    }
+
     .foodIcon p {
         width: 100%;
         font-size: 15px
-    }
-
-    .selected {
-        background-color: lightgreen !important;
     }
 
     .foodImage {
@@ -60,10 +60,28 @@
         border-radius: 2px;
     }
 
+    .imageDisplay p{
+        display: inline;
+        font-size: 20px;
+        margin-right: 0px;
+    }
+
     #buttonDisplay {
         margin: 10px;
     }
-    
+
+    .newCustomIcon{
+        width: 80px;
+        height: 80px;
+        background-color: white;
+        border-radius: 5px;
+        margin: 10px;
+        float: left;
+    }
+
+    .selected {
+        background-color: lightgreen !important;
+    }    
 /*-----------Landing Page------------*/
 /* .imageDisplay {
     content: "";
@@ -92,4 +110,9 @@
     max-width: 600px;
     margin: auto;
     color: white;
+}
+
+
+input{
+    border-radius: 5px;
 }

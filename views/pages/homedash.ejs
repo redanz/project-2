@@ -23,14 +23,14 @@
     <div class="container" id="displayAllFood">
         <%for(var i=0; i<expiringFoods.length; i++){ %>
         <div class="foodIcon text-center">
-            <img class="foodImage" src="/assets/img/<%=expiringFoods[i].food_id%>.png" alt="food image">
+            <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png"
+                alt="food image">
             <p>
                 <%=expiringFoods[i].food_name%>
             </p>
         </div>
         <%}%>
     </div>
-
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
