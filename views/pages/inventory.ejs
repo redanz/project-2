@@ -25,14 +25,18 @@
     <div class="container text-center" id="displayAllFood">
         <%for(let i in foodInfo){ %>
         <div class="foodIcon text-center" data-addToHome="false" data-foodId="<%=foodInfo[i].id%>">
-            <img class="foodImage" src="/assets/img/<%= (foodInfo[i].custom_user_id === 0 ? foodInfo[i].id : 'customFood')%>.png"
-                alt="food image">
-            <p>
-                <%= foodInfo[i].food_name %>
-            </p>
+            <div class="imageDisplay">
+                <img class="foodImage" src="/assets/img/<%= (foodInfo[i].custom_user_id === 0 ? foodInfo[i].id : 'customFood')%>.png"
+                    alt="food image">
+            </div>
+            <div class="text">
+                <p>
+                    <%= foodInfo[i].food_name %>
+                </p>
+            </div>
         </div>
         <%}%>
-        <div class="customIcon text-center" data-toggle="modal" data-target="#newUserModal" data-addToHome="false"
+        <div class="newCustomIcon text-center" data-toggle="modal" data-target="#newUserModal" data-addToHome="false"
             data-foodId="1">
             <img class="foodImage" src="/assets/img/custom.png" alt="food image">
             <p>
