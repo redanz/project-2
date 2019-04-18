@@ -64,7 +64,7 @@ app.get('/show-currently-selected', (req, res) => {
 })
 
 app.get('/homedash', (req, res) => {
-    req.session.user_id = tempId;
+    // req.session.user_id = tempId;
     con.query('SELECT food_id, food_name, custom_user_id, expiry_time - DATEDIFF(CURDATE(), purchase_time) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
         if (err) throw err;
         res.render('pages/homedash', {
@@ -74,25 +74,55 @@ app.get('/homedash', (req, res) => {
 })
 
 app.post('/homedash', (req, res) => {
-    req.session.user_id = 1;
+    // req.session.user_id = 1;
     con.query('UPDATE user_data SET purchase_time = CURDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, req.body.food_id])
 });
 
 app.post('/icons-to-home', (req, res) => {
-    console.log(req.body.si)
+    console.log(req.body.si);
+    console.log(req.session.user_id);
     var selectedItem = req.body.si;
-    var currentUser = 1; //this should be req.sessions.user_id
-    con.query('DELETE FROM user_data WHERE user_id = 1', (err, results, fields) => {
+    con.query('DELETE FROM user_data WHERE user_id = ?', [req.session.user_id], (err, results, fields) => {
         if (err) throw err;
         console.log('deleted all rows for current user...')
     })
 
     for (let i in selectedItem) {
-        con.query('INSERT INTO user_data (user_id, food_id, purchase_time) VALUES (?,?,CURDATE())', [1, selectedItem[i]], (err, results, fields) => {
+        con.query('INSERT INTO user_data (user_id, food_id, purchase_time) VALUES (?,?,CURDATE())', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
             if (err) throw err;
-            console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${currentUser}...`);
+            console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${req.session.user_id}...`);
         })
     }
+});
+
+app.post('/login', function(req, res){
+    console.log(req.body)
+    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email],function (error, results, fields) {
+        console.log(results);
+
+        if (error) throw error;
+      
+        if (results.length == 0){
+            res.send('Go back and try again.');
+        } else {
+            bcrypt.compare(req.body.password, results[0].password_hash, function(err, result) {
+            
+                if (result == true){
+                    req.session.user_id = results[0].id;
+                    req.session.email = results[0].email;
+                    res.redirect('/homedash')
+                } else {
+                    res.send('Go back and try again.');
+                }
+        });
+      }
+    });
+});
+
+app.get('/logout', function(req, res){
+    req.session.destroy(function(err) {
+       res.redirect('/')
+    })
 });
 
 app.listen(3000, () => {
