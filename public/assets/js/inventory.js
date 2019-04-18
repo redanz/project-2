@@ -23,3 +23,4 @@ function addToHome() {
         data: { si: selectedIcons }
     })
 }
+
