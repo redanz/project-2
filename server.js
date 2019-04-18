@@ -73,6 +73,11 @@ app.get('/homedash', (req, res) => {
     })
 })
 
+app.post('/homedash', (req, res) => {
+    req.session.user_id = 1;
+    con.query('UPDATE user_data SET purchase_time = CURDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, req.body.food_id])
+});
+
 app.post('/icons-to-home', (req, res) => {
     console.log(req.body.si)
     var selectedItem = req.body.si;
