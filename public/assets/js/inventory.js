@@ -23,7 +23,6 @@ $('#newCustomIcon').submit(function () {
     });
 })
 
-
 function addToHome() {
     var selectedIcons = [];
     for (let i in $('.foodIcon')) {
@@ -38,4 +37,18 @@ function addToHome() {
         data: { si: selectedIcons }
     })
 }
+
+function showCurrentlySelected() {
+    $.ajax({
+        url: '/show-currently-selected',
+        method: 'GET'
+    }).then(function (response) {
+        for (let i in response) {
+            console.log(response[i].food_id)
+            $('.foodIcon').eq(response[i].food_id - 1).addClass('selected');
+            $('.foodIcon').eq(response[i].food_id - 1).attr('data-addToHome', 'true');
+        }
+    });
+}
+
 

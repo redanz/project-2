@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
     res.send('index')
 })
 
-var tempId = 3;
+var tempId = 1;
 
 app.post('/newUser', (req, res) => {
     bcrypt.genSalt(10, function (err, salt) {
@@ -55,6 +55,14 @@ app.get('/inventory', (req, res) => {
     })
 })
 
+app.get('/show-currently-selected', (req, res) => {
+    req.session.user_id = tempId;
+    con.query('SELECT * FROM user_data WHERE user_id = (?)', tempId, (err, results, fields) => {
+        if (err) throw err;
+        res.send(results);
+    })
+})
+
 app.get('/homedash', (req, res) => {
     req.session.user_id = tempId;
     con.query('SELECT food_id, food_name, custom_user_id, expiry_time - DATEDIFF(CURDATE(), purchase_time) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
@@ -63,7 +71,7 @@ app.get('/homedash', (req, res) => {
             expiringFoods: results
         });
     })
-});
+})
 
 app.post('/icons-to-home', (req, res) => {
     console.log(req.body.si)
