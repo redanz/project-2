@@ -6,24 +6,24 @@ INSERT INTO user_auth (userName, email, password_hash) VALUES
 	('Nader', 'nader@test.com', '!@#$!%%');
 
 
-INSERT INTO foods (food_name, expiry_time) VALUES
-	('Milk', 5),
-	('Egg', 21),
-	('Apple', 14),
-	('Avocado', 3),
-	('Banana', 2),
-	('Blueberry', 5),
-	('Lemon', 30),
-	('Tomato', 7),
-	('Strawberry', 5),
-	('Broccoli', 7),
-	('Mushroom', 7),
-	('Potato', 21),
-	('Carrot', 28),
-	('Bread', 2),
-	('Beef', 1),
-	('Chicken', 1),
-	('Salmon', 1);
+INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES
+	('Milk', 5, 0),
+	('Egg', 21, 0),
+	('Apple', 14, 0),
+	('Avocado', 3, 0),
+	('Banana', 2, 0),
+	('Blueberry', 5, 0),
+	('Lemon', 30, 0),
+	('Tomato', 7, 0),
+	('Strawberry', 5, 0),
+	('Broccoli', 7, 0),
+	('Mushroom', 7, 0),
+	('Potato', 21, 0),
+	('Carrot', 28, 0),
+	('Bread', 2, 0),
+	('Beef', 1, 0),
+	('Chicken', 1, 0),
+	('Salmon', 1, 0);
 
 
 INSERT INTO user_data (user_id, food_id, purchase_time) VALUES
@@ -34,6 +34,8 @@ INSERT INTO user_data (user_id, food_id, purchase_time) VALUES
 	(3, 17, '2019-04-10 12:15:55'),
 	(3, 3, '2019-04-10 12:17:39');
 
+-- Custom food per user
+-- INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES ('Tangerine', 5, 1);
 
 
 

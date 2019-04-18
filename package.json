@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/redanz/project-2#readme",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.4",
     "ejs": "^2.6.1",

@@ -15,6 +15,7 @@ CREATE TABLE foods (
 	id INT NOT NULL AUTO_INCREMENT,
 	food_name VARCHAR(255) NOT NULL UNIQUE,
 	expiry_time INT,
+	custom_user_id INT,
 	PRIMARY KEY(id)
 );
 

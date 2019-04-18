@@ -9,6 +9,21 @@ $('.foodIcon').on('click', function () {
     }
 })
 
+$('#newCustomIcon').submit(function () {
+    $.ajax({
+        url: '/newCustomIcon',
+        method: 'POST',
+        data: {
+            foodName: $("#newCustomIcon input[name='foodName']").val(),
+            expiration: $("#newCustomIcon input[name='expiration']").val(),
+        }
+    }).then(function (response) {
+        console.log(response);
+        console.log('made it ajax');
+    });
+})
+
+
 function addToHome() {
     var selectedIcons = [];
     for (let i in $('.foodIcon')) {
@@ -23,3 +38,4 @@ function addToHome() {
         data: { si: selectedIcons }
     })
 }
+

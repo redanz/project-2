@@ -9,64 +9,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/cover/">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
-<style>
-    body::after {
-        content: "";
-        position: fixed;
-        z-index: -1;
-        width: 100%;
-        background-image: url('assets/img/background.png');
-        background-size: cover;
-        opacity: 0.9;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-    }
-
-    h1 {
-        color: white
-    }
-
-    #displayAllFood {
-        background-color: #fff4;
-        border-radius: 10px;
-        height: 500px;
-    }
-
-    .foodIcon {
-        width: 80px;
-        height: 80px;
-        background-color: white;
-        border-radius: 5px;
-        margin: 10px;
-        float: left;
-    }
-
-    .foodIcon p {
-        width: 100%;
-        font-size: 15px
-    }
-
-    .selected {
-        background-color: lightgreen !important;
-    }
-
-    .foodImage {
-        width: 60%;
-        height: 60%;
-        margin: 4px 4px 0px 4px;
-        border-radius: 2px;
-    }
-
-    #buttonDisplay {
-        margin: 10px;
-    }
-</style>
-
 <body>
+    <br>
+    <header>
+        <% include ../partials/navbar %>
+    </header>
     <div class="container text-center">
         <h1>Inventory</h1>
     </div>
@@ -77,15 +27,47 @@
 
     <div class="container text-center" id="displayAllFood">
         <%for(let i in foodInfo){ %>
-        <div class="foodIcon text-center" data-addToHome="false" data-foodId="<%=i%>">
-            <img class="foodImage" src="/assets/img/<%= foodInfo[i].id %>.png" alt="food image">
-            <p>
-                <%= foodInfo[i].food_name %>
-            </p>
+        <div class="foodIcon text-center" data-addToHome="false" data-foodId="<%=foodInfo[i].id%>">
+            <div class="imageDisplay">
+                <img class="foodImage" src="/assets/img/<%= (foodInfo[i].custom_user_id === 0 ? foodInfo[i].id : 'customFood')%>.png"
+                    alt="food image">
+            </div>
+            <div class="text">
+                <p>
+                    <%= foodInfo[i].food_name %>
+                </p>
+            </div>
         </div>
         <%}%>
+        <div class="newCustomIcon text-center" data-toggle="modal" data-target="#newUserModal" data-addToHome="false"
+            data-foodId="1">
+            <img class="foodImage" src="/assets/img/custom.png" alt="food image">
+            <p>
+                Add
+            </p>
+        </div>
     </div>
+    <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add a Custom Food!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
+                </div>
+                <div class="modal-body" style="border-radius:20px">
+                    <form id="newCustomIcon">
+                        <input type="name" name="foodName" placeholder="Food Name" required>
+                        <input type="number" name="expiration" placeholder="Expiration" required>
+                        <button class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="
