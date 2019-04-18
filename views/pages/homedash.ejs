@@ -62,14 +62,24 @@
 
 
     <div class="container" id="displayAllFood">
-        <%for(var i=0; i<expiringFoods.length; i++){ %>
-        <div class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
-            <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png" alt="food image">
-            <p>
-                <%=expiringFoods[i].food_name%>
-            </p>
-        </div>
-        <%}%>
+        <%
+            for(var i=0; i<expiringFoods.length; i++){ %>
+                <%  var color = 'green';
+                    var exp = expiringFoods[i].days_to_expiry;
+                    if (exp <= 0) {
+                        color = 'red';
+                    } else if (exp <= 1) {
+                        color = 'yellow';
+                    }
+                %>
+                <div class="foodIcon text-center expire-<%=color%>" data-foodID="<%= expiringFoods[i].food_id %>">
+                    <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png" alt="food image">
+                    <p>
+                        <%=expiringFoods[i].food_name%>
+                    </p>
+                </div>
+            <%}
+        %>
     </div>
 
 
