@@ -40,21 +40,37 @@ app.post('/newUser', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], (error, results, fields) => {
-
+    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], function (error, results, fields) {
+        console.log("post login api call..")
         if (error) throw error;
+<<<<<<< HEAD
 
         if (results.length == 0) {
             res.json({ status: 'failed' });
+=======
+      
+        if (results.length == 0){
+            // res.json({status: 'failed'});
+            console.log("login failed");
+>>>>>>> 062a474364934fa3b2a0929065a8aa4841ae9b2c
         } else {
             bcrypt.compare(req.body.password, results[0].password_hash, (err, result) => {
 
                 if (result == true) {
                     req.session.user_id = results[0].id;
                     req.session.email = results[0].email;
+<<<<<<< HEAD
                     res.redirect('/homedash')
                 } else {
                     res.json({ status: 'failed' });
+=======
+                    res.redirect('/homedash');
+                    console.log("login success");
+                } else {                    
+                    res.json({status: 'failed'});
+                    console.log("login failed")
+                    // res.redirect('')
+>>>>>>> 062a474364934fa3b2a0929065a8aa4841ae9b2c
                 }
             });
         }
@@ -98,7 +114,7 @@ app.get('/homedash', (req, res) => {
     })
 })
 
-app.post('/homedash', (req, res) => {
+app.post('/update-purchase_time', (req, res) => {
     con.query('UPDATE user_data SET purchase_time = CURDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, req.body.food_id]);
     res.redirect('/homedash');
 });
@@ -122,7 +138,7 @@ app.post('/icons-to-home', (req, res) => {
 
 
 app.get('*', (req, res) => {
-    res.redirect('/')
+    res.redirect('/');
 });
 
 app.post('/login', function (req, res) {
