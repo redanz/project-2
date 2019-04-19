@@ -21,9 +21,9 @@ INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES
 	('Potato', 21, 0),
 	('Carrot', 28, 0),
 	('Bread', 2, 0),
-	('Beef', 1, 0),
-	('Chicken', 1, 0),
-	('Salmon', 1, 0);
+	('Beef', 4, 0),
+	('Chicken', 4, 0),
+	('Salmon', 2, 0);
 
 
 INSERT INTO user_data (user_id, food_id, purchase_time) VALUES
