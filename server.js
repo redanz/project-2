@@ -42,21 +42,25 @@ app.post('/newUser', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], (error, results, fields) => {
-
+    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], function (error, results, fields) {
+        console.log("post login api call..")
         if (error) throw error;
       
         if (results.length == 0){
-            res.json({status: 'failed'});
+            // res.json({status: 'failed'});
+            console.log("login failed");
         } else {
             bcrypt.compare(req.body.password, results[0].password_hash, (err, result) => {
             
                 if (result == true){
                     req.session.user_id = results[0].id;
                     req.session.email = results[0].email;
-                    res.redirect('/homedash')
+                    res.redirect('/homedash');
+                    console.log("login success");
                 } else {                    
                     res.json({status: 'failed'});
+                    console.log("login failed")
+                    // res.redirect('')
                 }
         });
       }
@@ -93,7 +97,7 @@ app.get('/homedash', (req, res) => {
     })
 });
 
-app.post('/homedash', (req, res) => {
+app.post('/update-purchase_time', (req, res) => {
     con.query('UPDATE user_data SET purchase_time = CURDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, req.body.food_id]);
     res.redirect('/homedash');
 });

@@ -8,8 +8,12 @@ $('#login').submit(function(e){
 			password : $("#inputPassword").val()
 		}
 	}).then(function(response){
-		if(response.status === 'failed') {
-			alert('Incorrect email and/or password. Please try again.');
-		};
+		// if(response.status === 'failed') {
+		// 	alert('Incorrect email and/or password. Please try again.');
+		// } else {
+		// 	return;
+		// }
+		
+		console.log("got response");
 	});
 })
