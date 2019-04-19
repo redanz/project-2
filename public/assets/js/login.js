@@ -1,5 +1,5 @@
-$('#login').submit(function(){
-	preventDefault();
+$('#login').submit(function(e){
+	e.preventDefault();
 	$.ajax({
 		url: '/login',
 		method: 'POST',
@@ -8,7 +8,8 @@ $('#login').submit(function(){
 			password : $("#inputPassword").val()
 		}
 	}).then(function(response){
-		console.log(response);
-		console.log('made it ajax login'); 
+		if(response.status === 'failed') {
+			alert('Incorrect email and/or password. Please try again.');
+		};
 	});
 })

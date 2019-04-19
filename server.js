@@ -41,11 +41,39 @@ app.post('/newUser', (req, res) => {
     })
 })
 
+app.post('/login', (req, res) => {
+    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], (error, results, fields) => {
+
+        if (error) throw error;
+      
+        if (results.length == 0){
+            res.json({status: 'failed'});
+        } else {
+            bcrypt.compare(req.body.password, results[0].password_hash, (err, result) => {
+            
+                if (result == true){
+                    req.session.user_id = results[0].id;
+                    req.session.email = results[0].email;
+                    res.redirect('/homedash')
+                } else {                    
+                    res.json({status: 'failed'});
+                }
+        });
+      }
+    });
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+       res.redirect('/');
+    });
+});
+
 app.post('/newCustomIcon', (req, res) => {
     con.query('INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES (?, ?, ?)', [req.body.foodName, req.body.expiration, tempId], (err, results, fields) => {
     })
     res.redirect('/inventory');
-})
+});
 
 app.get('/inventory', (req, res) => {
     con.query('SELECT id, food_name, custom_user_id FROM foods WHERE custom_user_id = 0 OR custom_user_id = (?) ORDER BY id ASC;', tempId, (err, results, fields) => {
@@ -53,7 +81,7 @@ app.get('/inventory', (req, res) => {
             foodInfo: results
         });
     })
-})
+});
 
 app.get('/homedash', (req, res) => {
     // req.session.user_id = tempId;
@@ -87,32 +115,8 @@ app.post('/icons-to-home', (req, res) => {
     }
 });
 
-app.post('/login', function(req, res){
-    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email],function (error, results, fields) {
-
-        if (error) throw error;
-      
-        if (results.length == 0){
-            res.send('Go back and try again.');
-        } else {
-            bcrypt.compare(req.body.password, results[0].password_hash, function(err, result) {
-            
-                if (result == true){
-                    req.session.user_id = results[0].id;
-                    req.session.email = results[0].email;
-                    res.redirect('/homedash')
-                } else {
-                    res.send('Go back and try again.');
-                }
-        });
-      }
-    });
-});
-
-app.get('/logout', function(req, res){
-    req.session.destroy(function(err) {
-       res.redirect('/')
-    })
+app.get('*', (req, res) => {
+    res.redirect('/')
 });
 
 app.listen(3000, () => {
