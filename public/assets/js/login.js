@@ -1,14 +1,14 @@
-$('#login').submit(function(e){
+$('#login').submit(function (e) {
 	e.preventDefault();
 	$.ajax({
 		url: '/login',
 		method: 'POST',
 		data: {
-			email : $("#inputEmail").val(), 
-			password : $("#inputPassword").val()
+			email: $("#inputEmail").val(),
+			password: $("#inputPassword").val()
 		}
-	}).then(function(response){
-		if(response.status === 'failed') {
+	}).then(function (response) {
+		if (response.status === 'failed') {
 			alert('Incorrect email and/or password. Please try again.');
 		};
 	});

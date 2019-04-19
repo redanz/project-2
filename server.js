@@ -43,27 +43,27 @@ app.post('/login', (req, res) => {
     con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], (error, results, fields) => {
 
         if (error) throw error;
-      
-        if (results.length == 0){
-            res.json({status: 'failed'});
+
+        if (results.length == 0) {
+            res.json({ status: 'failed' });
         } else {
             bcrypt.compare(req.body.password, results[0].password_hash, (err, result) => {
-            
-                if (result == true){
+
+                if (result == true) {
                     req.session.user_id = results[0].id;
                     req.session.email = results[0].email;
                     res.redirect('/homedash')
-                } else {                    
-                    res.json({status: 'failed'});
+                } else {
+                    res.json({ status: 'failed' });
                 }
-        });
-      }
+            });
+        }
     });
 });
 
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
-       res.redirect('/');
+        res.redirect('/');
     });
 });
 
