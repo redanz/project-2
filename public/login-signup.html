@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Log In</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
@@ -30,41 +30,34 @@
         <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
     </form>
 
+
     <div class="container text-center">
-        <a href="contact_us.html">
-            <button class="btn btn-primary">
-                <span class="button--inner">Contact Us</span>
-            </button>
-        </a>
-    </div>
-    <div class="container text-center">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#newUserModal">
-            <span class="button--inner">Sign Up</span>
+        <br><br>
+        <h1 class="h3 mb-3 font-weight-normal">New to Pantry Pal? Create an account here!</h1>
+        <button class="btn btn-success" data-toggle="modal" data-target="#newUserModal">
+            <span class="button--inner">New User Sign Up</span>
         </button>
     </div>
 
-
-    <button class="btn btn-primary" data-toggle="modal" data-target="#newUserModal">
-        <span class="button--inner">Sign Up</span>
-    </button>
-
-    <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New User Signup</h5>
+                <div class="modal-header bg-success text-center">
+                    <h5 class="modal-title text-center mb-3 font-weight-normal" id="exampleModalLabel">New User Signup</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
 
                 </div>
-                <div class="modal-body">
+                <div class="modal-body text-center">
                     <form id="newUserSignUp">
                         <input type="name" name="userName" placeholder="Your name" required>
+                        <br>
                         <input type="email" name="email" placeholder="Email address" required>
+                        <br>
                         <input type="password" name="password" placeholder="Password" required>
-                        <button>Submit</button>
+                        <br><br>
+                        <button class="btn btn-success">Submit</button>
                     </form>
                 </div>
 
