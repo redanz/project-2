@@ -55,7 +55,13 @@
 
 
     <div class="container" id="displayAllFood">
-        <%
+        <%  if (expiringFoods.length === 0) { %>
+                <p>
+                    Your pantry is empty. Go to
+                    <a href="/inventory">inventory</a>
+                    to add items.
+                </p>
+        <%  }
             function getColor(exp, daysToExp) {
                 var g = 255;
                 var r = 0;
