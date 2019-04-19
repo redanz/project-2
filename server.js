@@ -123,7 +123,7 @@ app.post('/icons-to-home', (req, res) => {
 
 app.get('*', (req, res) => {
     res.redirect('/')
-}
+});
 
 app.post('/login', function (req, res) {
     con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], function (error, results, fields) {
