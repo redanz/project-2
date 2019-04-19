@@ -35,16 +35,9 @@
         float: left;
     }
 
-    .expire-green {
-        background-color: lightgreen;
-    }
-
-    .expire-yellow {
-        background-color: lightyellow;
-    }
-
-    .expire-red {
-        background-color: red;
+    .days {
+        margin-right: 2px;
+        float: right;
     }
 
 
@@ -63,24 +56,37 @@
 
     <div class="container" id="displayAllFood">
         <%
+            function getColor(exp, daysToExp) {
+                var g = 255;
+                var r = 0;
+                var colorsArr = [];
+                var percToExp = (exp - daysToExp) / exp;
+                if (percToExp < 0.5){
+                    r = percToExp * 255 * 2;
+                } else if (percToExp > 0.5) {
+                    r = 255;
+                    g = (1-percToExp) * 255 * 2;
+                } else {
+                    r = 255;
+                }
+                colorsArr.push(r, g);
+                return colorsArr;
+            }
             for(var i=0; i<expiringFoods.length; i++){ %>
-                <%  var color = 'green';
-                    var exp = expiringFoods[i].days_to_expiry;
-                    if (exp <= 0) {
-                        color = 'red';
-                    } else if (exp <= 1) {
-                        color = 'yellow';
-                    }
+                <%  
+                    var expiryTime = expiringFoods[i].expiry_time;
+                    var daysLeft = expiringFoods[i].days_to_expiry;
+                    console.log(expiringFoods[i].food_name, expiryTime, daysLeft);
+                    r = getColor(expiryTime, daysLeft)[0];
+                    g = getColor(expiryTime, daysLeft)[1];
                 %>
-                <div class="foodIcon text-center expire-<%=color%>" data-foodID="<%= expiringFoods[i].food_id %>">
+                <div style="background-color: rgb(<%=r%>,<%=g%>,0)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
                     <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png" alt="food image">
+                    <span class="days">
+                        <%=expiringFoods[i].days_to_expiry%>
+                    </span>
                     <p>
                         <%=expiringFoods[i].food_name%>
-                    </p>
-                    <p>
-                        Days left:
-                        <br>
-                        <%=expiringFoods[i].days_to_expiry%>
                     </p>
                 </div>
             <%}
@@ -95,6 +101,24 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="/assets/js/homedash.js"></script>
+    <script type="text/javascript">
+        function getColor(exp, daysToExp) {
+            var g = 255;
+            var r = 0;
+            var colorsArr = [];
+            var percToExp = (exp - daysToExp) / exp;
+            if (percToExp < 0.5){
+                r = percToExp * 255 * 2;
+            } else if (percToExp > 0.5) {
+                r = 255
+                g = (1-percToExp) * 255 * 2;
+            } else {
+                r = 255;
+            }
+            colorsArr.push(r, g)
+            return colorsArr;
+        }
+    </script>
 </body>
 
 </html>
