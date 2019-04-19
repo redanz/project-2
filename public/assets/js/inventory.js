@@ -45,10 +45,13 @@ function showCurrentlySelected() {
     }).then(function (response) {
         for (let i in response) {
             console.log('selected food id ' + response[i].food_id)
-            $('.foodIcon').eq(response[i].food_id - 1).addClass('selected');
-            $('.foodIcon').eq(response[i].food_id - 1).attr('data-addToHome', 'true');
+            // $('.foodIcon').eq(response[i].food_id - 1).addClass('selected');
+            // $('.foodIcon').eq(response[i].food_id - 1).attr('data-addToHome', 'true');
+            $("[data-foodid=" + response[i].food_id + "]").addClass('selected');
+            $("[data-foodid=" + response[i].food_id + "]").attr('data-addToHome', 'true');
         }
     });
 }
+
 
 
