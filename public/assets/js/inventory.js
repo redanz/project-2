@@ -53,5 +53,20 @@ function showCurrentlySelected() {
     });
 }
 
+var deleteFlag = true;
+function deleteIcon() {
+    if (deleteFlag) {
+        for (let i in $("[data-customId=0]")) {
+            $("[data-customId=0]").eq(i).addClass('grayOut');
+        }
+        deleteFlag = false;
+    } else {
+        for (let i in $("[data-customId=0]")) {
+            $("[data-customId=0]").eq(i).removeClass('grayOut');
+        }
+        deleteFlag = true;
+    }
+}
+
 
 

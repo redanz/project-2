@@ -91,6 +91,14 @@
     .selected {
         background-color: lightgreen !important;
     }    
+
+    .grayOut{
+        background-color: gray !important;
+    }
+
+    .grayOut img{
+        background-color: gray !important;
+    }
 /*-----------Landing Page------------*/
  #landing::after {
     content: "";

@@ -22,12 +22,13 @@
     </div>
     <div id="buttonDisplay" class="text-center">
         <button class="btn btn-success" onclick="addToHome()">Add To Home Page</button>
+        <button class="btn btn-danger" onclick="deleteIcon()">Delete</button>
     </div>
 
 
     <div class="container text-center" id="displayAllFood">
         <%for(let i in foodInfo){ %>
-        <div class="foodIcon text-center" data-addToHome="false" data-foodId="<%=foodInfo[i].id%>">
+        <div class="foodIcon text-center" data-addToHome="false" data-foodId="<%=foodInfo[i].id%>" data-customId="<%=foodInfo[i].custom_user_id%>">
             <div class="imageDisplay">
                 <img class="foodImage" src="/assets/img/<%= (foodInfo[i].custom_user_id === 0 ? foodInfo[i].id : 'customFood')%>.png"
                     alt="food image">
