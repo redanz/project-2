@@ -116,7 +116,7 @@ app.post('/icons-to-home', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-    res.redirect('/')
+    res.redirect('/');
 });
 
 app.listen(3000, () => {
