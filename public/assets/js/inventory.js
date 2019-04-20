@@ -10,8 +10,25 @@ $('.foodIcon').on('click', function () {
             $(this).attr('data-addToHome', 'false');
             $(this).removeClass('selected');
         }
+    } else {
+        if ($(this).attr('data-customid') != 0) {
+            if ($(this).attr('data-stageForDelete') === 'false') {
+                $(this).attr('data-stageForDelete', 'true');
+                $(this).addClass('stagedForDelete');
+            } else {
+                $(this).attr('data-stageForDelete', 'false');
+                $(this).removeClass('stagedForDelete');
+            }
+        }
     }
 })
+
+// $.ajax({
+//     url: '/show-currently-selected',
+//     method: 'GET'
+// }).then(function (response) {
+//     console.log(response[0].user_id);
+// });
 
 $('#newCustomIcon').submit(function () {
     $.ajax({
@@ -78,6 +95,3 @@ function stageIconForDelete() {
         deleteFlag = true;
     }
 }
-
-
-
