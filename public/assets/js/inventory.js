@@ -1,11 +1,15 @@
+var deleteFlag = true;
+
 
 $('.foodIcon').on('click', function () {
-    if ($(this).attr('data-addToHome') === 'false') {
-        $(this).attr('data-addToHome', 'true');
-        $(this).addClass('selected');
-    } else {
-        $(this).attr('data-addToHome', 'false');
-        $(this).removeClass('selected');
+    if (deleteFlag) {
+        if ($(this).attr('data-addToHome') === 'false') {
+            $(this).attr('data-addToHome', 'true');
+            $(this).addClass('selected');
+        } else {
+            $(this).attr('data-addToHome', 'false');
+            $(this).removeClass('selected');
+        }
     }
 })
 
@@ -24,18 +28,20 @@ $('#newCustomIcon').submit(function () {
 })
 
 function addToHome() {
-    var selectedIcons = [];
-    for (let i in $('.foodIcon')) {
-        if ($('.foodIcon').eq(i).attr('data-addToHome') == 'true') {
-            selectedIcons.push(($('.foodIcon').eq(i).attr('data-foodId')));
+    if (deleteFlag) {
+        var selectedIcons = [];
+        for (let i in $('.foodIcon')) {
+            if ($('.foodIcon').eq(i).attr('data-addToHome') == 'true') {
+                selectedIcons.push(($('.foodIcon').eq(i).attr('data-foodId')));
+            }
         }
+        console.log(selectedIcons);
+        $.ajax({
+            type: "POST",
+            url: '/icons-to-home',
+            data: { si: selectedIcons }
+        })
     }
-    console.log(selectedIcons);
-    $.ajax({
-        type: "POST",
-        url: '/icons-to-home',
-        data: { si: selectedIcons }
-    })
 }
 
 function showCurrentlySelected() {
@@ -53,17 +59,18 @@ function showCurrentlySelected() {
     });
 }
 
-var deleteFlag = true;
 function deleteIcon() {
     if (deleteFlag) {
         for (let i in $("[data-customId=0]")) {
             $("[data-customId=0]").eq(i).addClass('grayOut');
         }
+        $(".newCustomIcon").addClass('grayOut');
         deleteFlag = false;
     } else {
         for (let i in $("[data-customId=0]")) {
             $("[data-customId=0]").eq(i).removeClass('grayOut');
         }
+        $(".newCustomIcon").removeClass('grayOut');
         deleteFlag = true;
     }
 }

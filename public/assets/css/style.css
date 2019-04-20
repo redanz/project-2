@@ -22,7 +22,7 @@
     }
 
     h5 {
-        ont-weight: 200;
+        font-weight: 200;
         color: white;
         font-size: 25px;
         height: 25px;
@@ -96,9 +96,10 @@
         background-color: gray !important;
     }
 
-    .grayOut img{
-        background-color: gray !important;
+    .grayOut .imageDisplay img{
+        opacity: 0.2;
     }
+
 /*-----------Landing Page------------*/
  #landing::after {
     content: "";
