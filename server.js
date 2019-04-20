@@ -146,7 +146,7 @@ app.post('/icons-to-home', (req, res) => {
     })
 
     for (let i in selectedItem) {
-        con.query('INSERT INTO user_data (user_id, food_id, purchase_time) VALUES (?,?,CURDATE())', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
+        con.query('INSERT INTO user_data (user_id, food_id, purchased) VALUES (?,?, False)', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
             if (err) throw err;
             console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${req.session.user_id}...`);
         })

@@ -30,19 +30,27 @@
                 </p>
         <%  }
             function getColor(exp, daysToExp) {
+
                 var g = 255;
                 var r = 0;
+                var b = 140;
                 var colorsArr = [];
-                var percToExp = (exp - daysToExp) / exp;
-                if (percToExp < 0.5){
-                    r = percToExp * 255 * 2;
-                } else if (percToExp > 0.5) {
-                    r = 255;
-                    g = (1-percToExp) * 255 * 2;
+                if (daysToExp != null) {
+                    var percToExp = (exp - daysToExp) / exp;
+                    if (percToExp < 0.5 && percToExp > 0){
+                        r = percToExp * 255 * 2;
+                    } else if (percToExp > 0.5) {
+                        r = 255;
+                        g = (1-percToExp) * 255 * 2;
+                    } else if (percToExp === 0.5) {
+                        r = 255;
+                    }
                 } else {
                     r = 255;
+                    g = 255;
+                    b = 255;
                 }
-                colorsArr.push(r, g);
+                colorsArr.push(r, g, b);
                 return colorsArr;
             }
             for(var i=0; i<expiringFoods.length; i++){ %>
@@ -51,8 +59,9 @@
                     var daysLeft = expiringFoods[i].days_to_expiry;
                     r = getColor(expiryTime, daysLeft)[0];
                     g = getColor(expiryTime, daysLeft)[1];
+                    b = getColor(expiryTime, daysLeft)[2];
                 %>
-                <div style="background-color: rgb(<%=r%>,<%=g%>,140)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
+                <div style="background-color: rgb(<%=r%>,<%=g%>,<%=b%>)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
                     <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png" alt="food image">
                     <span class="days">
                         <%=expiringFoods[i].days_to_expiry%>
@@ -73,6 +82,19 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script src="/assets/js/homedash.js"></script>
+    <script type="text/javascript">
+        $('.foodIcon').on('click', function() {
+            $.ajax({
+                type: 'POST',
+                url: '/update-purchase_time',
+                data: {
+                    food_id: $(this).attr('data-foodID')
+                }
+            }).then(function(){
+                location.reload();
+            })
+        });
+    </script>
 </body>
 
 </html>
