@@ -21,4 +21,3 @@ function goToInventory() {
         url: '/inventory'
     })
 }
-

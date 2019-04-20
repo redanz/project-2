@@ -52,7 +52,7 @@
                     r = getColor(expiryTime, daysLeft)[0];
                     g = getColor(expiryTime, daysLeft)[1];
                 %>
-                <div style="background-color: rgb(<%=r%>,<%=g%>,0)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
+                <div style="background-color: rgb(<%=r%>,<%=g%>,140)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
                     <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png" alt="food image">
                     <span class="days">
                         <%=expiringFoods[i].days_to_expiry%>
