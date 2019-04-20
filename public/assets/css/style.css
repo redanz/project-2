@@ -40,6 +40,11 @@
         color: white;
    }
 
+   nav > a:hover{
+        color: #17a2b8;
+        text-decoration: none;
+   }
+
    nav > a:after{
         content: "|";
         padding: 0.5em;
@@ -49,6 +54,15 @@
         content: "";
    }
 
+
+   .form-signin input {
+        width: 250px;
+        display: inline;
+   }
+
+   .signin{
+        width: 250px;
+   }
 
     .btn-info {
         font-weight: 200;
