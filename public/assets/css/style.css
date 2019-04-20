@@ -22,15 +22,35 @@
     }
 
     h5 {
-        ont-weight: 200;
+        font-weight: 200;
         color: white;
         font-size: 25px;
         height: 25px;
         text-shadow: -1px -1px 0 #17a2b8, 1px -1px 0 #17a2b8, -1px 1px 0 #17a2b8, 1px 1px 0 #17a2b8;
     }
 
+    nav {
+        height: 25px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+   }
 
-    .btn-info{
+   nav > a {
+        color: white;
+   }
+
+   nav > a:after{
+        content: "|";
+        padding: 0.5em;
+   }
+
+   nav > a:last-child:after{
+        content: "";
+   }
+
+
+    .btn-info {
         background-color: #fff9;
         font-weight: 200;
         color: white;
@@ -51,6 +71,7 @@
         border-radius: 5px;
         margin: 10px;
         float: left;
+        position: relative;
     }
 
     .customIcon{
@@ -59,7 +80,7 @@
 
     .foodIcon p {
         width: 100%;
-        font-size: 15px
+        font-size: 15px;
     }
 
     .foodImage {
@@ -138,6 +159,15 @@ input{
 .modal-header {
     border-top-left-radius: 25px !important;
     border-top-right-radius: 25px !important;
+}
+
+
+/*Home Dashboard*/
+
+.days {
+    position: absolute;
+    top: -1px;
+    right: 3px;
 }
 
 
