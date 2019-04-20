@@ -35,7 +35,9 @@ function addToHome() {
         type: "POST",
         url: '/icons-to-home',
         data: { si: selectedIcons }
-    })
+    }).then(function(res){
+        window.location.assign('/homedash');
+    });
 }
 
 function showCurrentlySelected() {

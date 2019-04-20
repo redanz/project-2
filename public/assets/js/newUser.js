@@ -10,8 +10,8 @@ $('#newUserSignUp').submit(function(e){
 		url: '/newUser',
 		method: 'POST',
 		data: {
-			userName : name, 
-			email : emailVal, 
+			userName : name,
+			email : emailVal,
 			password : passVal
 		}
 	}).then(function(response){
