@@ -39,7 +39,7 @@ app.post('/newUser', (req, res) => {
     })
 })
 
-app.get('/newUser/login/:email/:password', function(req, res) {
+app.get('/newUser/login/:email/:password', function (req, res) {
 
     console.log('params.email:', req.params.email);
     console.log('params.password:', req.params.password);
@@ -88,7 +88,6 @@ app.post('/login', (req, res) => {
                 } else {
                     res.json({ status: 'failed' });
                     console.log("login failed")
-                    // res.redirect('')
                 }
             });
         }

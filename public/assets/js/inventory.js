@@ -23,13 +23,6 @@ $('.foodIcon').on('click', function () {
     }
 })
 
-// $.ajax({
-//     url: '/show-currently-selected',
-//     method: 'GET'
-// }).then(function (response) {
-//     console.log(response[0].user_id);
-// });
-
 $('#newCustomIcon').submit(function () {
     $.ajax({
         url: '/newCustomIcon',
