@@ -59,18 +59,22 @@ function showCurrentlySelected() {
     });
 }
 
-function deleteIcon() {
+function stageIconForDelete() {
     if (deleteFlag) {
         for (let i in $("[data-customId=0]")) {
             $("[data-customId=0]").eq(i).addClass('grayOut');
         }
         $(".newCustomIcon").addClass('grayOut');
+        $("#deleteButton").removeClass('btn-secondary');
+        $("#deleteButton").addClass('btn-danger');
         deleteFlag = false;
     } else {
         for (let i in $("[data-customId=0]")) {
             $("[data-customId=0]").eq(i).removeClass('grayOut');
         }
         $(".newCustomIcon").removeClass('grayOut');
+        $("#deleteButton").removeClass('btn-danger');
+        $("#deleteButton").addClass('btn-secondary');
         deleteFlag = true;
     }
 }
