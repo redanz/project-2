@@ -99,5 +99,16 @@ function stageIconForDelete() {
             selectedIcon.push($("[data-stagefordelete='true']").eq(i).attr('data-foodId'));
         }
         console.log(selectedIcon);
+
+        $.ajax({
+            url: '/deleteCustomIcon',
+            method: 'DELETE',
+            data: {
+                selectedIcon: selectedIcon
+            }
+        }).then(function (response) {
+            console.log(response);
+            location.reload();
+        });
     }
 }
