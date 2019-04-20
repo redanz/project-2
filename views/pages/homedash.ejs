@@ -11,46 +11,6 @@
 </head>
 
 
-<style>
-    body::after {
-        content: "";
-        position: fixed;
-        z-index: -1;
-        width: 100%;
-        background-image: url('assets/img/background.png');
-        background-size: cover;
-        opacity: 0.9;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-    }   
-
-    .foodIcon {
-        width: 80px;
-        height: 80px;
-        background-color: white;
-        border-radius: 5px;
-        margin: 10px;
-        float: left;
-    }
-
-    .expire-green {
-        background-color: lightgreen;
-    }
-
-    .expire-yellow {
-        background-color: lightyellow;
-    }
-
-    .expire-red {
-        background-color: red;
-    }
-
-
-</style>
-
-
 <body><br>
     <header>
         <% include ../partials/navbar %>
@@ -62,25 +22,43 @@
 
 
     <div class="container" id="displayAllFood">
-        <%
+        <%  if (expiringFoods.length === 0) { %>
+                <p id="emptyHomeDash" class="text-center">
+                    Your pantry is empty. Go to
+                    <a href="/inventory">inventory</a>
+                    to add items.
+                </p>
+        <%  }
+            function getColor(exp, daysToExp) {
+                var g = 255;
+                var r = 0;
+                var colorsArr = [];
+                var percToExp = (exp - daysToExp) / exp;
+                if (percToExp < 0.5){
+                    r = percToExp * 255 * 2;
+                } else if (percToExp > 0.5) {
+                    r = 255;
+                    g = (1-percToExp) * 255 * 2;
+                } else {
+                    r = 255;
+                }
+                colorsArr.push(r, g);
+                return colorsArr;
+            }
             for(var i=0; i<expiringFoods.length; i++){ %>
-                <%  var color = 'green';
-                    var exp = expiringFoods[i].days_to_expiry;
-                    if (exp <= 0) {
-                        color = 'red';
-                    } else if (exp <= 1) {
-                        color = 'yellow';
-                    }
+                <%  
+                    var expiryTime = expiringFoods[i].expiry_time;
+                    var daysLeft = expiringFoods[i].days_to_expiry;
+                    r = getColor(expiryTime, daysLeft)[0];
+                    g = getColor(expiryTime, daysLeft)[1];
                 %>
-                <div class="foodIcon text-center expire-<%=color%>" data-foodID="<%= expiringFoods[i].food_id %>">
+                <div style="background-color: rgb(<%=r%>,<%=g%>,140)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
                     <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png" alt="food image">
+                    <span class="days">
+                        <%=expiringFoods[i].days_to_expiry%>
+                    </span>
                     <p>
                         <%=expiringFoods[i].food_name%>
-                    </p>
-                    <p>
-                        Days left:
-                        <br>
-                        <%=expiringFoods[i].days_to_expiry%>
                     </p>
                 </div>
             <%}
