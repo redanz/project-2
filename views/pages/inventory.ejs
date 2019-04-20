@@ -27,7 +27,7 @@
 
     <div class="container text-center" id="displayAllFood">
         <%for(let i in foodInfo){ %>
-        <div class="foodIcon text-center" data-addToHome="false" data-foodId="<%=foodInfo[i].id%>">
+        <div class="foodIcon text-center" data-addToHome="false" data-foodId="<%=foodInfo[i].id%>" data-source="inventory">
             <div class="imageDisplay">
                 <img class="foodImage" src="/assets/img/<%= (foodInfo[i].custom_user_id === 0 ? foodInfo[i].id : 'customFood')%>.png"
                     alt="food image">

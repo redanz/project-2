@@ -35,9 +35,8 @@ function changeColor(expiration, daysLeft) {
 
 function goToInventory() {
 	$.ajax({
-	        type: "GET",
-	        url: '/inventory'
-	    })
-
+        method: "GET",
+        url: '/inventory'
+    })
 }
 
