@@ -12,7 +12,7 @@ INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES
 	('Apple', 14, 0),
 	('Avocado', 3, 0),
 	('Banana', 2, 0),
-	('Blueberry', 5, 0),
+	('Raspberry', 5, 0),
 	('Lemon', 30, 0),
 	('Tomato', 7, 0),
 	('Strawberry', 5, 0),

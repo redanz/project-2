@@ -93,8 +93,7 @@ app.get('/show-currently-selected', (req, res) => {
 })
 
 app.get('/homedash', (req, res) => {
-    // req.session.user_id = tempId;
-    con.query('SELECT food_id, food_name, custom_user_id, foods.expiry_time, expiry_time - DATEDIFF(CURDATE(), purchase_time) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
+    con.query('SELECT food_id, food_name, custom_user_id, foods.expiry_time, expiry_time - DATEDIFF(CURDATE(), IFNULL(purchase_time, 0)) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
         if (err) throw err;
         res.render('pages/homedash', {
             expiringFoods: results
