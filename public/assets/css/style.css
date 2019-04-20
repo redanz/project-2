@@ -51,7 +51,6 @@
 
 
     .btn-info {
-        background-color: #fff9;
         font-weight: 200;
         color: white;
         font-size: 20px;
@@ -168,6 +167,15 @@ input{
     position: absolute;
     top: -1px;
     right: 3px;
+}
+
+#emptyHomeDash {
+    font-weight: bold;
+    padding-top: 200px;
+}
+
+#emptyHomeDash a {
+    color: white;
 }
 
 
