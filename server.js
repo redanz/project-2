@@ -151,6 +151,7 @@ app.post('/icons-to-home', (req, res) => {
             console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${req.session.user_id}...`);
         })
     }
+    res.redirect('/homedash');
 });
 
 
