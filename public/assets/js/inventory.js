@@ -1,13 +1,34 @@
+var deleteFlag = true;
+
 
 $('.foodIcon').on('click', function () {
-    if ($(this).attr('data-addToHome') === 'false') {
-        $(this).attr('data-addToHome', 'true');
-        $(this).addClass('selected');
+    if (deleteFlag) {
+        if ($(this).attr('data-addToHome') === 'false') {
+            $(this).attr('data-addToHome', 'true');
+            $(this).addClass('selected');
+        } else {
+            $(this).attr('data-addToHome', 'false');
+            $(this).removeClass('selected');
+        }
     } else {
-        $(this).attr('data-addToHome', 'false');
-        $(this).removeClass('selected');
+        if ($(this).attr('data-customid') != 0) {
+            if ($(this).attr('data-stageForDelete') === 'false') {
+                $(this).attr('data-stageForDelete', 'true');
+                $(this).addClass('stagedForDelete');
+            } else {
+                $(this).attr('data-stageForDelete', 'false');
+                $(this).removeClass('stagedForDelete');
+            }
+        }
     }
 })
+
+// $.ajax({
+//     url: '/show-currently-selected',
+//     method: 'GET'
+// }).then(function (response) {
+//     console.log(response[0].user_id);
+// });
 
 $('#newCustomIcon').submit(function () {
     $.ajax({
@@ -24,18 +45,26 @@ $('#newCustomIcon').submit(function () {
 })
 
 function addToHome() {
-    var selectedIcons = [];
-    for (let i in $('.foodIcon')) {
-        if ($('.foodIcon').eq(i).attr('data-addToHome') == 'true') {
-            selectedIcons.push(($('.foodIcon').eq(i).attr('data-foodId')));
+    if (deleteFlag) {
+        var selectedIcons = [];
+        for (let i in $('.foodIcon')) {
+            if ($('.foodIcon').eq(i).attr('data-addToHome') == 'true') {
+                selectedIcons.push(($('.foodIcon').eq(i).attr('data-foodId')));
+            }
         }
+        console.log(selectedIcons);
+        $.ajax({
+            type: "POST",
+            url: '/icons-to-home',
+            data: { si: selectedIcons }
+        })
     }
     console.log(selectedIcons);
     $.ajax({
         type: "POST",
         url: '/icons-to-home',
         data: { si: selectedIcons }
-    }).then(function(res){
+    }).then(function (res) {
         window.location.assign('/homedash');
     });
 }
@@ -55,5 +84,39 @@ function showCurrentlySelected() {
     });
 }
 
+function stageIconForDelete() {
+    if (deleteFlag) {
+        for (let i in $("[data-customId=0]")) {
+            $("[data-customId=0]").eq(i).addClass('grayOut');
+        }
+        $(".newCustomIcon").addClass('grayOut');
+        $("#deleteButton").removeClass('btn-secondary');
+        $("#deleteButton").addClass('btn-danger');
+        deleteFlag = false;
+    } else {
+        for (let i in $("[data-customId=0]")) {
+            $("[data-customId=0]").eq(i).removeClass('grayOut');
+        }
+        $(".newCustomIcon").removeClass('grayOut');
+        $("#deleteButton").removeClass('btn-danger');
+        $("#deleteButton").addClass('btn-secondary');
+        deleteFlag = true;
 
+        var selectedIcon = [];
+        for (let i = 0; i < $("[data-stagefordelete='true']").length; i++) {
+            selectedIcon.push($("[data-stagefordelete='true']").eq(i).attr('data-foodId'));
+        }
+        console.log(selectedIcon);
 
+        $.ajax({
+            url: '/deleteCustomIcon',
+            method: 'DELETE',
+            data: {
+                selectedIcon: selectedIcon
+            }
+        }).then(function (response) {
+            console.log(response);
+            location.reload();
+        });
+    }
+}

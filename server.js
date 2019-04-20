@@ -104,8 +104,18 @@ app.get('/logout', (req, res) => {
 app.post('/newCustomIcon', (req, res) => {
     con.query('INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES (?, ?, ?)', [req.body.foodName, req.body.expiration, req.session.user_id], (err, results, fields) => {
     })
-    res.redirect('/inventory');
+    res.json({ message: 'ok' })
+    // res.redirect('/inventory');
 });
+
+app.delete('/deleteCustomIcon', (req, res) => {
+    console.log(req.body.selectedIcon);
+    var query = con.query('DELETE FROM foods WHERE id IN (?)', [req.body.selectedIcon], (err, results, fields) => {
+        console.log(query.sql);
+        if (err) res.send(err);
+        else res.send('Success!');
+    })
+})
 
 app.get('/inventory', (req, res) => {
     con.query('SELECT id, food_name, custom_user_id FROM foods WHERE custom_user_id = 0 OR custom_user_id = (?) ORDER BY id ASC;', req.session.user_id, (err, results, fields) => {

@@ -111,6 +111,19 @@
     .selected {
         background-color: lightgreen !important;
     }    
+
+    .grayOut{
+        background-color: gray !important;
+    }
+
+    .grayOut .imageDisplay img{
+        opacity: 0.2;
+    }
+
+    .stagedForDelete{
+        background-color: red !important;
+    }
+
 /*-----------Landing Page------------*/
  #landing::after {
     content: "";
