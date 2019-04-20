@@ -93,5 +93,11 @@ function stageIconForDelete() {
         $("#deleteButton").removeClass('btn-danger');
         $("#deleteButton").addClass('btn-secondary');
         deleteFlag = true;
+
+        var selectedIcon = [];
+        for (let i = 0; i < $("[data-stagefordelete='true']").length; i++) {
+            selectedIcon.push($("[data-stagefordelete='true']").eq(i).attr('data-foodId'));
+        }
+        console.log(selectedIcon);
     }
 }
