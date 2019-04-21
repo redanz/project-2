@@ -131,8 +131,9 @@ app.get('/show-currently-selected', (req, res) => {
     })
 })
 
+
 app.get('/homedash', (req, res) => {
-    con.query('SELECT food_id, food_name, custom_user_id, foods.expiry_time, expiry_time - DATEDIFF(CURDATE(), IFNULL(purchase_time, 0)) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
+    con.query('SELECT food_id, food_name, custom_user_id, foods.expiry_time, expiry_time - TIMESTAMPDIFF(DAY, CURRENT_TIMESTAMP(), IFNULL(purchase_time, 0)) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
         if (err) throw err;
         res.render('pages/homedash', {
             expiringFoods: results
@@ -141,7 +142,7 @@ app.get('/homedash', (req, res) => {
 })
 
 app.post('/update-purchase_time', (req, res) => {
-    con.query('UPDATE user_data SET purchase_time = CURDATE() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, req.body.food_id]);
+    con.query('UPDATE user_data SET purchase_time = CURRENT_TIMESTAMP() WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, req.body.food_id]);
     res.redirect('/homedash');
 });
 
