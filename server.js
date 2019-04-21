@@ -155,13 +155,23 @@ app.post('/icons-to-home', (req, res) => {
     })
 
     for (let i in selectedItem) {
-        con.query('INSERT INTO user_data (user_id, food_id) VALUES (?,?)', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
+        con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
             if (err) throw err;
             console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${req.session.user_id}...`);
         })
     }
     res.redirect('/homedash');
 });
+
+app.delete('/remove-food', (req, res) => {
+    var removingItem = req.body.food_id;
+    con.query('DELETE FROM user_data WHERE user_id = ? AND food_id = ?', [req.session.user_id, removingItem], (err, results, fields) => {
+        if(err) throw err;
+        else 
+            console.log(`Deleted food ${removingItem} of user ${req.session.user_id}..`);
+            res.send('success');
+    })
+})
 
 app.get('*', (req, res) => {
     res.redirect('/');

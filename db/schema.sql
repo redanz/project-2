@@ -23,6 +23,7 @@ CREATE TABLE user_data (
 	user_id INT NOT NULL,
 	food_id INT NOT NULL,
 	purchase_time TIMESTAMP,
+	added_to_home BOOLEAN NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES user_auth(id),	
 	FOREIGN KEY (food_id) REFERENCES foods(id) ON DELETE CASCADE
 );
