@@ -57,7 +57,7 @@ app.get('/newUser/login/:email/:password', function (req, res) {
                 if (result == true) {
                     req.session.user_id = results[0].id;
                     req.session.email = results[0].email;
-                    res.redirect('/homedash');
+                    res.redirect('/inventory');
                     console.log("login success");
                 } else {
                     res.json({ status: 'failed' });
