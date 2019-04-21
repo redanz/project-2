@@ -97,9 +97,9 @@
     }
 
     .foodImage {
-        width: 60%;
-        height: 60%;
-        margin: 4px 4px 0px 4px;
+        width: 55%;
+        height: 55%;
+        margin: 14px 10px 0px 10px;
         border-radius: 2px;
     }
 
@@ -192,8 +192,21 @@ input{
 
 .days {
     position: absolute;
-    top: -1px;
-    right: 3px;
+    color: #615b5b;
+    top: 0px;
+    left: 5px;
+    font-size: 0.9rem;
+}
+
+.close {
+	position: absolute;
+	right: 3px;
+	outline: none !important;
+	font-size: 1.0rem;
+}
+
+.foodIcon p {
+	color: #615b5b;
 }
 
 #emptyHomeDash {

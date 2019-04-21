@@ -67,7 +67,7 @@ app.get('/newUser/login/:email/:password', function (req, res) {
             });
         }
     });
-})
+});
 
 app.post('/login', (req, res) => {
     con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], function (error, results, fields) {
@@ -76,18 +76,18 @@ app.post('/login', (req, res) => {
 
         if (results.length == 0) {
             // res.json({status: 'failed'});
-            console.log("login failed");
+            console.log('Login failed. Please go back and try again.');
         } else {
             bcrypt.compare(req.body.password, results[0].password_hash, (err, result) => {
 
                 if (result == true) {
                     req.session.user_id = results[0].id;
                     req.session.email = results[0].email;
-                    res.redirect('/homedash');
                     console.log("login success");
+                    res.redirect('/homedash');
                 } else {
-                    res.json({ status: 'failed' });
-                    console.log("login failed")
+                    console.log("login failed");
+                    res.send('Login failed. Please go back and try again.');
                 }
             });
         }
@@ -155,7 +155,7 @@ app.post('/icons-to-home', (req, res) => {
     })
 
     for (let i in selectedItem) {
-        con.query('INSERT INTO user_data (user_id, food_id) VALUES (?,?)', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
+        con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
             if (err) throw err;
             console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${req.session.user_id}...`);
         })
@@ -163,31 +163,18 @@ app.post('/icons-to-home', (req, res) => {
     res.redirect('/homedash');
 });
 
+app.delete('/remove-food', (req, res) => {
+    var removingItem = req.body.food_id;
+    con.query('DELETE FROM user_data WHERE user_id = ? AND food_id = ?', [req.session.user_id, removingItem], (err, results, fields) => {
+        if(err) throw err;
+        else 
+            console.log(`Deleted food ${removingItem} of user ${req.session.user_id}..`);
+            res.send('success');
+    })
+})
 
 app.get('*', (req, res) => {
     res.redirect('/');
-});
-
-app.post('/login', function (req, res) {
-    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], function (error, results, fields) {
-
-        if (error) throw error;
-
-        if (results.length == 0) {
-            res.send('Go back and try again.');
-        } else {
-            bcrypt.compare(req.body.password, results[0].password_hash, function (err, result) {
-
-                if (result == true) {
-                    req.session.user_id = results[0].id;
-                    req.session.email = results[0].email;
-                    res.redirect('/homedash')
-                } else {
-                    res.send('Go back and try again.');
-                }
-            });
-        }
-    });
 });
 
 app.get('/logout', function (req, res) {

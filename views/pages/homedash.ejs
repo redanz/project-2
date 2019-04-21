@@ -34,27 +34,28 @@
                 var r = 0;
                 var b = 140;
                 var colorsArr = [];
+
                 if (daysToExp != null) {
-                    
+
                     var percToExp = (exp - daysToExp) / exp;
-                    console.log('not null', percToExp)
+
                     if (percToExp < 0.5){
-                        console.log(1)
                         r = percToExp * 255 * 2;
                     } else if (percToExp > 0.5) {
-                        console.log(2)
                         r = 255;
                         g = (1-percToExp) * 255 * 2;
                     } else if (percToExp === 0.5) {
-                        console.log(3)
                         r = 255;
+                    } else if (exp <= 0) {
+                        r = 255;
+                        g = 0;
                     }
                 } else {
-                    console.log(4)
                     r = 255;
                     g = 255;
                     b = 255;
                 }
+
                 colorsArr.push(r, g, b);
                 return colorsArr;
             }
@@ -62,13 +63,15 @@
                 <%  
                     var expiryTime = expiringFoods[i].expiry_time;
                     var daysLeft = expiringFoods[i].days_to_expiry;
-                    console.log('exp:', expiryTime, 'daysLeft:', daysLeft)
                     r = getColor(expiryTime, daysLeft)[0];
                     g = getColor(expiryTime, daysLeft)[1];
                     b = getColor(expiryTime, daysLeft)[2];
                 %>
                 <div style="background-color: rgb(<%=r%>,<%=g%>,<%=b%>)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
                     <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png" alt="food image">
+                    <button type="button" class="close" aria-label="Close" data-clickable="true">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                     <span class="days">
                         <%=expiringFoods[i].days_to_expiry%>
                     </span>
@@ -76,8 +79,7 @@
                         <%=expiringFoods[i].food_name%>
                     </p>
                 </div>
-            <%}
-        %>
+            <%}%>
     </div>
 
 
@@ -89,9 +91,36 @@
         crossorigin="anonymous"></script>
     <script src="/assets/js/homedash.js"></script>
     <script type="text/javascript">
+
+        $('.close').on('click', function() {
+            
+            var clickable = $('.close').attr('data-clickable');
+            console.log(clickable)
+            if (clickable === 'false') {
+                // e.stopPropagation();
+                return;
+            } else {
+                $('.close').attr('data-clickable', 'false');
+                $(this).parent().remove();
+                console.log('Removed:', $(this).parent().attr('data-foodID'));
+
+                $.ajax({
+                    method: 'DELETE',
+                    url: '/remove-food',
+                    data: {
+                        food_id: $(this).parent().attr('data-foodID')
+                    }
+                }).then(function() {
+                    $('.close').attr('data-clickable', 'true');
+                    console.log('all set to true')
+                });
+            }
+        });
+
         $('.foodIcon').on('click', function() {
+
             $.ajax({
-                type: 'POST',
+                method: 'POST',
                 url: '/update-purchase_time',
                 data: {
                     food_id: $(this).attr('data-foodID')
@@ -100,6 +129,8 @@
                 location.reload();
             })
         });
+
+
     </script>
 </body>
 
