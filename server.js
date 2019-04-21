@@ -30,8 +30,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/newUser', (req, res) => {
-    bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(req.body.password, salt, function (err, p_hash) {
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, (err, p_hash) => {
             con.query('INSERT INTO user_auth(userName, email, password_hash) VALUES(?,?,?)', [req.body.userName, req.body.email, p_hash], (err, results, fields) => {
             })
             res.redirect('/login/' + req.body.email + '/' + p_hash);
@@ -39,12 +39,12 @@ app.post('/newUser', (req, res) => {
     })
 })
 
-app.get('/newUser/login/:email/:password', function (req, res) {
+app.get('/newUser/login/:email/:password', (req, res) => {
 
     console.log('params.email:', req.params.email);
     console.log('params.password:', req.params.password);
 
-    con.query('SELECT * FROM user_auth WHERE email = ?', [req.params.email], function (error, results, fields) {
+    con.query('SELECT * FROM user_auth WHERE email = ?', [req.params.email], (error, results, fields) => {
         console.log("post login api call..")
         if (error) throw error;
 
@@ -70,7 +70,7 @@ app.get('/newUser/login/:email/:password', function (req, res) {
 });
 
 app.post('/login', (req, res) => {
-    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], function (error, results, fields) {
+    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], (error, results, fields) => {
         console.log("post login api call..")
         if (error) throw error;
 
@@ -177,8 +177,8 @@ app.get('*', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/logout', function (req, res) {
-    req.session.destroy(function (err) {
+app.get('/logout', (req, res) => {
+    req.session.destroy( (err) => {
         res.redirect('/')
     })
 });
