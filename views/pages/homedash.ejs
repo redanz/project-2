@@ -29,15 +29,15 @@
                     to add items.
                 </p>
         <%  }
-            function getColor(exp, daysToExp) {
+            function getColor(expHours, hoursToExp) {
                 var g = 255;
                 var r = 0;
                 var b = 140;
                 var colorsArr = [];
 
-                if (daysToExp != null) {
+                if (hoursToExp != null) {
 
-                    var percToExp = (exp - daysToExp) / exp;
+                    var percToExp = (expHours - hoursToExp) / expHours;
 
                     if (percToExp < 0.5){
                         r = percToExp * 255 * 2;
@@ -46,7 +46,7 @@
                         g = (1-percToExp) * 255 * 2;
                     } else if (percToExp === 0.5) {
                         r = 255;
-                    } else if (exp <= 0) {
+                    } else if (expHours <= 0) {
                         r = 255;
                         g = 0;
                     }
@@ -61,11 +61,11 @@
             }
             for(var i=0; i<expiringFoods.length; i++){ %>
                 <%  
-                    var expiryTime = expiringFoods[i].expiry_time;
-                    var daysLeft = expiringFoods[i].days_to_expiry;
-                    r = getColor(expiryTime, daysLeft)[0];
-                    g = getColor(expiryTime, daysLeft)[1];
-                    b = getColor(expiryTime, daysLeft)[2];
+                    var expiryTime = expiringFoods[i].expiry_time * 24;
+                    var hoursLeft = expiringFoods[i].hours_to_expiry;
+                    r = getColor(expiryTime, hoursLeft)[0];
+                    g = getColor(expiryTime, hoursLeft)[1];
+                    b = getColor(expiryTime, hoursLeft)[2];
                 %>
                 <div style="background-color: rgb(<%=r%>,<%=g%>,<%=b%>)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
                     <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png" alt="food image">
@@ -73,13 +73,15 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                     <span class="days">
-                        <%=expiringFoods[i].days_to_expiry%>
+                        <%if (expiringFoods[i].hours_to_expiry != null) {%>
+                        <%=Math.floor(expiringFoods[i].hours_to_expiry / 24)%>
+                        <%};%>
                     </span>
                     <p>
                         <%=expiringFoods[i].food_name%>
                     </p>
                 </div>
-            <%}%>
+            <%};%>
     </div>
 
 
