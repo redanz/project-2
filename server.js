@@ -133,7 +133,7 @@ app.get('/show-currently-selected', (req, res) => {
 
 
 app.get('/homedash', (req, res) => {
-    con.query('SELECT food_id, food_name, custom_user_id, foods.expiry_time, expiry_time - TIMESTAMPDIFF(DAY, CURRENT_TIMESTAMP(), IFNULL(purchase_time, 0)) AS days_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY days_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
+    con.query('SELECT food_id, food_name, custom_user_id, foods.expiry_time, 24 * expiry_time - TIMESTAMPDIFF(HOUR, IFNULL(purchase_time, 0), CURRENT_TIMESTAMP()) AS hours_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY hours_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
         if (err) throw err;
         res.render('pages/homedash', {
             expiringFoods: results
