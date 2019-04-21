@@ -67,7 +67,7 @@ app.get('/newUser/login/:email/:password', function (req, res) {
             });
         }
     });
-})
+});
 
 app.post('/login', (req, res) => {
     con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], function (error, results, fields) {
@@ -76,18 +76,18 @@ app.post('/login', (req, res) => {
 
         if (results.length == 0) {
             // res.json({status: 'failed'});
-            console.log("login failed");
+            console.log('Login failed. Please go back and try again.');
         } else {
             bcrypt.compare(req.body.password, results[0].password_hash, (err, result) => {
 
                 if (result == true) {
                     req.session.user_id = results[0].id;
                     req.session.email = results[0].email;
-                    res.redirect('/homedash');
                     console.log("login success");
+                    res.redirect('/homedash');
                 } else {
-                    res.json({ status: 'failed' });
-                    console.log("login failed")
+                    console.log("login failed");
+                    res.send('Login failed. Please go back and try again.');
                 }
             });
         }
@@ -163,31 +163,8 @@ app.post('/icons-to-home', (req, res) => {
     res.redirect('/homedash');
 });
 
-
 app.get('*', (req, res) => {
     res.redirect('/');
-});
-
-app.post('/login', function (req, res) {
-    con.query('SELECT * FROM user_auth WHERE email = ?', [req.body.email], function (error, results, fields) {
-
-        if (error) throw error;
-
-        if (results.length == 0) {
-            res.send('Go back and try again.');
-        } else {
-            bcrypt.compare(req.body.password, results[0].password_hash, function (err, result) {
-
-                if (result == true) {
-                    req.session.user_id = results[0].id;
-                    req.session.email = results[0].email;
-                    res.redirect('/homedash')
-                } else {
-                    res.send('Go back and try again.');
-                }
-            });
-        }
-    });
 });
 
 app.get('/logout', function (req, res) {
