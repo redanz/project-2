@@ -94,12 +94,6 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        res.redirect('/');
-    });
-});
-
 app.post('/newCustomIcon', (req, res) => {
     con.query('INSERT INTO foods (food_name, expiry_time, custom_user_id) VALUES (?, ?, ?)', [req.body.foodName, req.body.expiration, req.session.user_id], (err, results, fields) => {
     })
@@ -117,6 +111,9 @@ app.delete('/deleteCustomIcon', (req, res) => {
 })
 
 app.get('/inventory', (req, res) => {
+    if (!req.session.user_id) {
+        res.redirect('non-user.html')
+    }
     con.query('SELECT id, food_name, custom_user_id FROM foods WHERE custom_user_id = 0 OR custom_user_id = (?) ORDER BY id ASC;', req.session.user_id, (err, results, fields) => {
         res.render('pages/inventory', {
             foodInfo: results
@@ -133,6 +130,9 @@ app.get('/show-currently-selected', (req, res) => {
 
 
 app.get('/homedash', (req, res) => {
+    if (!req.session.user_id) {
+        res.redirect('non-user.html')
+    }
     con.query('SELECT food_id, food_name, custom_user_id, foods.expiry_time, 24 * expiry_time - TIMESTAMPDIFF(HOUR, IFNULL(purchase_time, 0), CURRENT_TIMESTAMP()) AS hours_to_expiry FROM user_data LEFT JOIN foods ON foods.id = user_data.food_id WHERE user_id = ? ORDER BY hours_to_expiry ASC', [req.session.user_id], (err, results, fields) => {
         if (err) throw err;
         res.render('pages/homedash', {
@@ -167,21 +167,22 @@ app.post('/icons-to-home', (req, res) => {
 app.delete('/remove-food', (req, res) => {
     var removingItem = req.body.food_id;
     con.query('DELETE FROM user_data WHERE user_id = ? AND food_id = ?', [req.session.user_id, removingItem], (err, results, fields) => {
-        if(err) throw err;
-        else 
+        if (err) throw err;
+        else
             console.log(`Deleted food ${removingItem} of user ${req.session.user_id}..`);
-            res.send('success');
+        res.send('success');
     })
 })
 
-app.get('*', (req, res) => {
-    res.redirect('/');
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        console.log('Successful Log Out...')
+        res.redirect('non-user.html')
+    })
 });
 
-app.get('/logout', (req, res) => {
-    req.session.destroy( (err) => {
-        res.redirect('/')
-    })
+app.get('*', (req, res) => {
+    res.redirect('/');
 });
 
 app.listen(3000, () => {
