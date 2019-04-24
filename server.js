@@ -150,6 +150,7 @@ app.post('/icons-to-home', (req, res) => {
     console.log(req.body.si);
     console.log(req.session.user_id);
     var selectedItem = req.body.si;
+
     con.query('DELETE FROM user_data WHERE user_id = ?', [req.session.user_id], (err, results, fields) => {
         if (err) throw err;
         console.log('deleted all rows for current user...')
