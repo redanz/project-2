@@ -147,22 +147,51 @@ app.post('/update-purchase_time', (req, res) => {
 });
 
 app.post('/icons-to-home', (req, res) => {
-    console.log(req.body.si);
-    console.log(req.session.user_id);
+    console.log('req.body.si : ' + req.body.si);
+    console.log('req.session.user_id : ' + req.session.user_id);
     var selectedItem = req.body.si;
+    var foodToDelete = [];
+    var foodToAdd = [];
+    var resultArr = [];
+    if (!selectedItem.length === 0) {
+        var intArray = selectedItem.map((x) => {
+            return parseInt(x)
+        });
+    }
 
-    con.query('DELETE FROM user_data WHERE user_id = ?', [req.session.user_id], (err, results, fields) => {
-        if (err) throw err;
-        console.log('deleted all rows for current user...')
+    console.log("intARray " + intArray);
+
+    con.query('SELECT food_id FROM user_data WHERE user_id = ?', [req.session.user_id], (err, results, fields) => {
+        if (results.length === 0) { return };
+        for (let i in results) {
+            resultArr.push(results[i].food_id)
+            // console.log(results[i]);
+            if (!intArray.includes(results[i].food_id)) {
+                console.log("results[i].food_id " + results[i].food_id)
+                foodToDelete.push(results[i].food_id)
+            }
+        }
+        con.query('DELETE FROM user_data WHERE food_id = ?', foodToDelete, (err, results, fields) => {
+            if (err) throw err;
+            console.log(`deleted food id: [${foodToDelete}] current user...`)
+        })
+        console.log(`resultarr ${resultArr}`);
     })
 
-    for (let i in selectedItem) {
-        con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
-            if (err) throw err;
-            console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${req.session.user_id}...`);
-        })
-    }
-    res.redirect('/homedash');
+    // con.query('SELECT food_id FROM user_data WHERE user_id = ?', [req.session.user_id], (err, results, fields) => {
+    //     for (let i in intArray) {
+    //         // console.log(results[i]);
+    //         if (!resultArr.includes(intArray[i])) {
+    //             foodToAdd.push(intArray[i])
+    //             console.log(`Food to add ${intArray[i]}`)
+    //             // con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
+    //             //     if (err) throw err;
+    //             //     console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${req.session.user_id}...`);
+    //             // })
+    //         }
+    //     }
+    // })
+    // res.redirect('/homedash');
 });
 
 app.delete('/remove-food', (req, res) => {
