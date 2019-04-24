@@ -117,6 +117,9 @@ app.delete('/deleteCustomIcon', (req, res) => {
 })
 
 app.get('/inventory', (req, res) => {
+    if (!req.session.user_id) {
+        res.send('Please Sign In First!')
+    }
     con.query('SELECT id, food_name, custom_user_id FROM foods WHERE custom_user_id = 0 OR custom_user_id = (?) ORDER BY id ASC;', req.session.user_id, (err, results, fields) => {
         res.render('pages/inventory', {
             foodInfo: results
@@ -167,10 +170,10 @@ app.post('/icons-to-home', (req, res) => {
 app.delete('/remove-food', (req, res) => {
     var removingItem = req.body.food_id;
     con.query('DELETE FROM user_data WHERE user_id = ? AND food_id = ?', [req.session.user_id, removingItem], (err, results, fields) => {
-        if(err) throw err;
-        else 
+        if (err) throw err;
+        else
             console.log(`Deleted food ${removingItem} of user ${req.session.user_id}..`);
-            res.send('success');
+        res.send('success');
     })
 })
 
@@ -179,7 +182,7 @@ app.get('*', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy( (err) => {
+    req.session.destroy((err) => {
         res.redirect('/')
     })
 });
