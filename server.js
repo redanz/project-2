@@ -152,25 +152,26 @@ app.post('/icons-to-home', (req, res) => {
         var selectedItems = req.body.si.map(x => {
             return parseInt(x);
         });
+        con.query('SELECT food_id FROM user_data WHERE user_id = (?)', [req.session.user_id], (err, results, fields) => {
+            var resultArr = [];
+            for (let i in results) {
+                resultArr.push(results[i].food_id);
+            }
+            console.log(`resultArr ${resultArr}`)
+            if (results) {
+                var foodToAdd = selectedItems.filter(food => !resultArr.includes(food));
+                var foodToDelete = resultArr.filter(food => !selectedItems.includes(food));
+            }
+            console.log(`Food to delete ${foodToDelete}`);
+            console.log(`Food to add ${foodToAdd}`);
+        }
+        )
     } else {
         con.query('DELETE FROM user_data WHERE user_id = ?', [req.session.user_id], (err, results, fields) => {
             if (err) throw err;
             console.log('deleted all rows for current user...')
         })
     }
-
-    con.query('SELECT food_id FROM user_data WHERE user_id = (?)', [req.session.user_id], (err, results, fields) => {
-        var resultArr = [];
-        for (let i in results) {
-            resultArr.push(results[i].food_id);
-        }
-        console.log(`resultArr ${resultArr}`)
-        var foodToAdd = selectedItems.filter(food => !resultArr.includes(food));
-        var foodToDelete = resultArr.filter(food => !selectedItems.includes(food));
-        console.log(`Food to delete ${foodToDelete}`);
-        console.log(`Food to add ${foodToAdd}`);
-    }
-    )
 
     for (let i in selectedItems) {
         con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, selectedItems[i]], (err, results, fields) => {
