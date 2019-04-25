@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/redanz/project-2.git"
+    "url": "git+https://github.com/Khoalabear0424/PantryPal.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/redanz/project-2/issues"
+    "url": "https://github.com/Khoalabear0424/PantryPal/issues"
   },
-  "homepage": "https://github.com/redanz/project-2#readme",
+  "homepage": "https://github.com/Khoalabear0424/PantryPal#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
