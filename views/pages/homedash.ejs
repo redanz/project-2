@@ -23,11 +23,11 @@
 
     <div class="container" id="displayAllFood">
         <%  if (expiringFoods.length === 0) { %>
-                <p id="emptyHomeDash" class="text-center">
-                    Your pantry is empty. Go to
-                    <a href="/inventory">inventory</a>
-                    to add items.
-                </p>
+        <p id="emptyHomeDash" class="text-center">
+            Your pantry is empty. Go to
+            <a href="/inventory">inventory</a>
+            to add items.
+        </p>
         <%  }
             function getColor(expHours, hoursToExp) {
                 var g = 255;
@@ -60,28 +60,29 @@
                 return colorsArr;
             }
             for(var i=0; i<expiringFoods.length; i++){ %>
-                <%  
+        <%  
                     var expiryTime = expiringFoods[i].expiry_time * 24;
                     var hoursLeft = expiringFoods[i].hours_to_expiry;
                     r = getColor(expiryTime, hoursLeft)[0];
                     g = getColor(expiryTime, hoursLeft)[1];
                     b = getColor(expiryTime, hoursLeft)[2];
                 %>
-                <div style="background-color: rgb(<%=r%>,<%=g%>,<%=b%>)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
-                    <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png" alt="food image">
-                    <button type="button" class="close" aria-label="Close" data-clickable="true">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    <span class="days">
-                        <%if (expiringFoods[i].hours_to_expiry != null) {%>
-                        <%=Math.floor(expiringFoods[i].hours_to_expiry / 24)%>
-                        <%};%>
-                    </span>
-                    <p>
-                        <%=expiringFoods[i].food_name%>
-                    </p>
-                </div>
-            <%};%>
+        <div style="background-color: rgb(<%=r%>,<%=g%>,<%=b%>)" class="foodIcon text-center" data-foodID="<%= expiringFoods[i].food_id %>">
+            <img class="foodImage" src="/assets/img/<%= (expiringFoods[i].custom_user_id === 0 ? expiringFoods[i].food_id : 'customFood')%>.png"
+                alt="food image">
+            <button type="button" class="close" aria-label="Close" data-clickable="true">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span class="days">
+                <%if (expiringFoods[i].hours_to_expiry != null) {%>
+                <%=Math.floor(expiringFoods[i].hours_to_expiry / 24)%>
+                <%};%>
+            </span>
+            <p>
+                <%=expiringFoods[i].food_name%>
+            </p>
+        </div>
+        <%};%>
     </div>
 
 
@@ -94,8 +95,8 @@
     <script src="/assets/js/homedash.js"></script>
     <script type="text/javascript">
 
-        $('.close').on('click', function() {
-            
+        $('.close').on('click', function () {
+
             var clickable = $('.close').attr('data-clickable');
             console.log(clickable)
             if (clickable === 'false') {
@@ -112,14 +113,14 @@
                     data: {
                         food_id: $(this).parent().attr('data-foodID')
                     }
-                }).then(function() {
+                }).then(function () {
                     $('.close').attr('data-clickable', 'true');
                     console.log('all set to true')
                 });
             }
         });
 
-        $('.foodIcon').on('click', function() {
+        $('.foodIcon').on('click', function () {
 
             $.ajax({
                 method: 'POST',
@@ -127,7 +128,7 @@
                 data: {
                     food_id: $(this).attr('data-foodID')
                 }
-            }).then(function(){
+            }).then(function () {
                 location.reload();
             })
         });
