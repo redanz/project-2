@@ -149,7 +149,7 @@ app.post('/update-purchase_time', (req, res) => {
 app.post('/icons-to-home', (req, res) => {
     console.log(`req.body.si ${req.body.si}`);
     if (req.body.si) {
-        var selectedItem = req.body.si.map(x => {
+        var selectedItems = req.body.si.map(x => {
             return parseInt(x);
         });
     } else {
@@ -159,10 +159,23 @@ app.post('/icons-to-home', (req, res) => {
         })
     }
 
-    for (let i in selectedItem) {
-        con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
+    con.query('SELECT food_id FROM user_data WHERE user_id = (?)', [req.session.user_id], (err, results, fields) => {
+        var resultArr = [];
+        for (let i in results) {
+            resultArr.push(results[i].food_id);
+        }
+        console.log(`resultArr ${resultArr}`)
+        var foodToAdd = selectedItems.filter(food => !resultArr.includes(food));
+        var foodToDelete = resultArr.filter(food => !selectedItems.includes(food));
+        console.log(`Food to delete ${foodToDelete}`);
+        console.log(`Food to add ${foodToAdd}`);
+    }
+    )
+
+    for (let i in selectedItems) {
+        con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, selectedItems[i]], (err, results, fields) => {
             if (err) throw err;
-            console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${req.session.user_id}...`);
+            console.log(`Added food_id of ${selectedItems[i]} into user_data table, current user : ${req.session.user_id}...`);
         })
     }
     // res.redirect('/homedash');
