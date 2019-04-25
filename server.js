@@ -147,18 +147,39 @@ app.post('/update-purchase_time', (req, res) => {
 });
 
 app.post('/icons-to-home', (req, res) => {
-    console.log(req.body.si);
-    console.log(req.session.user_id);
-    var selectedItem = req.body.si;
-    con.query('DELETE FROM user_data WHERE user_id = ?', [req.session.user_id], (err, results, fields) => {
-        if (err) throw err;
-        console.log('deleted all rows for current user...')
-    })
+    console.log(`req.body.si ${req.body.si}`);
+    if (req.body.si) {
+        var selectedItems = req.body.si.map(x => {
+            return parseInt(x);
+        });
+        con.query('SELECT food_id FROM user_data WHERE user_id = (?)', [req.session.user_id], (err, results, fields) => {
+            var resultArr = [];
+            for (let i in results) {
+                resultArr.push(results[i].food_id);
+            }
+            var foodToAdd = selectedItems.filter(food => !resultArr.includes(food));
+            var foodToDelete = resultArr.filter(food => !selectedItems.includes(food));
+            console.log(`Food to add ${foodToAdd}`);
+            console.log(`Food to delete ${foodToDelete}`);
 
-    for (let i in selectedItem) {
-        con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, selectedItem[i]], (err, results, fields) => {
+            for (let i in foodToAdd) {
+                con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, foodToAdd[i]], (err, results, fields) => {
+                    if (err) throw err;
+                })
+            }
+            console.log(`Added food_id of ${foodToAdd} into user_data table, current user : ${req.session.user_id}...`);
+            for (let i in foodToDelete) {
+                con.query('DELETE FROM user_data WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, foodToDelete[i]], (err, results, fields) => {
+                    if (err) throw err;
+                })
+            }
+            console.log(`Deleted food_id of ${foodToDelete} into user_data table, current user : ${req.session.user_id}...`);
+        }
+        )
+    } else {
+        con.query('DELETE FROM user_data WHERE user_id = ?', [req.session.user_id], (err, results, fields) => {
             if (err) throw err;
-            console.log(`Added food_id of ${selectedItem[i]} into user_data table, current user : ${req.session.user_id}...`);
+            console.log('deleted all rows for current user...')
         })
     }
     res.redirect('/homedash');

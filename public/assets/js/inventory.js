@@ -45,12 +45,6 @@ function addToHome() {
                 selectedIcons.push(($('.foodIcon').eq(i).attr('data-foodId')));
             }
         }
-        console.log(selectedIcons);
-        $.ajax({
-            type: "POST",
-            url: '/icons-to-home',
-            data: { si: selectedIcons }
-        })
     }
     console.log(selectedIcons);
     $.ajax({
