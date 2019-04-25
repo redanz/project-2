@@ -157,13 +157,23 @@ app.post('/icons-to-home', (req, res) => {
             for (let i in results) {
                 resultArr.push(results[i].food_id);
             }
-            console.log(`resultArr ${resultArr}`)
-            if (results) {
-                var foodToAdd = selectedItems.filter(food => !resultArr.includes(food));
-                var foodToDelete = resultArr.filter(food => !selectedItems.includes(food));
-            }
-            console.log(`Food to delete ${foodToDelete}`);
+            var foodToAdd = selectedItems.filter(food => !resultArr.includes(food));
+            var foodToDelete = resultArr.filter(food => !selectedItems.includes(food));
             console.log(`Food to add ${foodToAdd}`);
+            console.log(`Food to delete ${foodToDelete}`);
+
+            for (let i in foodToAdd) {
+                con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, foodToAdd[i]], (err, results, fields) => {
+                    if (err) throw err;
+                })
+            }
+            console.log(`Added food_id of ${foodToAdd} into user_data table, current user : ${req.session.user_id}...`);
+            for (let i in foodToDelete) {
+                con.query('DELETE FROM user_data WHERE user_id = (?) AND food_id = (?)', [req.session.user_id, foodToDelete[i]], (err, results, fields) => {
+                    if (err) throw err;
+                })
+            }
+            console.log(`Deleted food_id of ${foodToDelete} into user_data table, current user : ${req.session.user_id}...`);
         }
         )
     } else {
@@ -172,14 +182,7 @@ app.post('/icons-to-home', (req, res) => {
             console.log('deleted all rows for current user...')
         })
     }
-
-    for (let i in selectedItems) {
-        con.query('INSERT INTO user_data (user_id, food_id, added_to_home) VALUES (?,?,1)', [req.session.user_id, selectedItems[i]], (err, results, fields) => {
-            if (err) throw err;
-            console.log(`Added food_id of ${selectedItems[i]} into user_data table, current user : ${req.session.user_id}...`);
-        })
-    }
-    // res.redirect('/homedash');
+    res.redirect('/homedash');
 });
 
 app.delete('/remove-food', (req, res) => {
